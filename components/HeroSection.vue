@@ -1,6 +1,6 @@
 <template>
   <section class="py-16 lg:py-24">
-    <div class="flex gap-12 lg:gap-16 content-start  ">
+    <div class="flex gap-12 lg:gap-16 content-start flex-wrap md:flex-nowrap">
       <!-- Image/Illustration -->
       <div
           class="aspect-square w-full rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 flex items-center justify-center relative overflow-hidden shadow-2xl">
@@ -39,7 +39,7 @@
         <div class="relative">
           <textarea
               v-model="searchQuery"
-              class="w-full px-6 py-5 pr-16 text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all shadow-lg hover:shadow-xl"
+              class="w-full px-6 py-5 pe-16 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all shadow-lg hover:shadow-xl"
               placeholder="نام دارو یا محصول مورد نظر خود را جستجو کنید..."
               rows="1"
               style="min-height: 80px; max-height: 200px;"
@@ -47,9 +47,9 @@
               @keydown.enter.prevent="handleSearch"
           />
           <button
-              :class="{ 'opacity-50 cursor-not-allowed': !searchQuery.trim() }"
+              :class="{ '!bg-brand-100 !cursor-not-allowed' : !searchQuery.trim() }"
               :disabled="!searchQuery.trim()"
-              class="w-12 h-12 absolute left-4 bottom-4 p-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg"
+              class="w-12 h-12 absolute  left-4 bottom-4 p-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg"
               @click="handleSearch"
           >
             <UIcon class="w-6 h-6" name="i-heroicons-magnifying-glass"/>
@@ -99,11 +99,10 @@
   </section>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script>
 import {useChatStore} from '~/stores/chat'
 
-export default defineComponent({
+export default {
   name: 'HeroSection',
 
   data() {
@@ -124,11 +123,11 @@ export default defineComponent({
       }
     },
 
-    autoResize(event: Event) {
-      const textarea = event.target as HTMLTextAreaElement
+    autoResize(event) {
+      const textarea = event.target
       textarea.style.height = 'auto'
       textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px'
     }
   }
-})
+}
 </script>
