@@ -3,13 +3,13 @@
     <div class="relative">
       <!-- Previous Button - Hidden on mobile -->
       <div
-          v-show="showPrev"
+          v-show="canScrollPrev"
           class="absolute right-0 top-1/2 -translate-y-1/2 z-20 -mr-4 hidden md:block"
       >
         <button
             type="button"
             class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-            @click.prevent="scrollLeft"
+            @click.prevent="scrollToPrev"
         >
           <UIcon name="i-heroicons-chevron-right-20-solid" class="w-6 h-6" />
         </button>
@@ -17,13 +17,13 @@
 
       <!-- Next Button - Hidden on mobile -->
       <div
-          v-show="showNext"
+          v-show="canScrollNext"
           class="absolute left-0 top-1/2 -translate-y-1/2 z-20 -ml-4 hidden md:block"
       >
         <button
             type="button"
-            class="w-12 h-12  bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-            @click.prevent="scrollRight"
+            class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+            @click.prevent="scrollToNext"
         >
           <UIcon name="i-heroicons-chevron-left-20-solid" class="w-6 h-6" />
         </button>
@@ -34,7 +34,7 @@
         <div
             ref="carousel"
             class="flex gap-3 md:gap-4 overflow-x-auto scroll-smooth hide-scrollbar snap-x snap-mandatory"
-            @scroll="updateButtons"
+            @scroll="onScroll"
             @touchstart="handleTouchStart"
             @touchmove="handleTouchMove"
             @touchend="handleTouchEnd"
@@ -43,7 +43,7 @@
           <div
               v-for="category in categories"
               :key="category.id"
-              class="flex-shrink-0 w-28 sm:w-32 md:w-36 snap-start"
+              class="flex-shrink-0 w-20 sm:w-24 md:w-32 snap-start"
           >
             <button
                 type="button"
@@ -85,13 +85,14 @@
       </div>
 
       <!-- Dots -->
-      <div class="flex justify-center gap-2 mt-6">
-        <div
+      <div v-if="totalPages > 1" class="absolute start-1/2 translate-x-1/2 flex justify-center gap-2 mt-6">
+        <button
             v-for="n in totalPages"
             :key="n"
-            class="h-2 rounded-full transition-all cursor-pointer"
-            :class="currentPage === n - 1 ? 'w-8 bg-brand-500' : 'w-2 bg-gray-300 dark:bg-gray-600'"
-            @click="goToPage(n - 1)"
+            type="button"
+            class="h-2 rounded-full transition-all"
+            :class="currentPage === n - 1 ? 'w-8 bg-brand-500' : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400'"
+            @click="scrollToPage(n - 1)"
         />
       </div>
     </div>
@@ -105,8 +106,8 @@ export default {
   data() {
     return {
       selectedCategory: null,
-      showPrev: false,
-      showNext: false,
+      canScrollPrev: false,
+      canScrollNext: false,
       currentPage: 0,
       totalPages: 1,
       touchStartX: 0,
@@ -131,9 +132,9 @@ export default {
   mounted() {
     this.$nextTick(() => {
       setTimeout(() => {
-        this.updateButtons()
         this.calculatePages()
-      }, 100)
+        this.updateScrollButtons()
+      }, 200)
     })
 
     if (typeof window !== 'undefined') {
@@ -148,69 +149,91 @@ export default {
   },
 
   methods: {
-    scrollLeft() {
+    scrollToPrev() {
       const carousel = this.$refs.carousel
       if (!carousel) return
 
-      const scrollAmount = carousel.offsetWidth * 0.8
-      // In RTL, scrollLeft goes negative to scroll right
-      carousel.scrollLeft = carousel.scrollLeft + scrollAmount
-
-      setTimeout(() => this.updateButtons(), 300)
+      const scrollAmount = carousel.clientWidth * 0.8
+      carousel.scrollLeft += scrollAmount // In RTL, + goes back
     },
 
-    scrollRight() {
+    scrollToNext() {
       const carousel = this.$refs.carousel
       if (!carousel) return
 
-      const scrollAmount = carousel.offsetWidth * 0.8
-      // In RTL, scrollLeft goes positive to scroll left
-      carousel.scrollLeft = carousel.scrollLeft - scrollAmount
-
-      setTimeout(() => this.updateButtons(), 300)
+      const scrollAmount = carousel.clientWidth * 0.8
+      carousel.scrollLeft -= scrollAmount // In RTL, - goes forward
     },
 
-    updateButtons() {
+    scrollToPage(pageIndex) {
       const carousel = this.$refs.carousel
       if (!carousel) return
 
-      const scrollLeft = Math.abs(carousel.scrollLeft)
-      const maxScroll = carousel.scrollWidth - carousel.offsetWidth
+      const pageWidth = carousel.clientWidth
+      // In RTL: page 0 = 0, page 1 = -pageWidth, page 2 = -2*pageWidth
+      carousel.scrollLeft = -pageIndex * pageWidth
+    },
 
-      // In RTL, scrollLeft can be negative
-      this.showPrev = scrollLeft > 20
-      this.showNext = scrollLeft < maxScroll - 20
+    onScroll() {
+      this.updateScrollButtons()
+      this.updateCurrentPage()
+    },
 
-      // Update current page
-      const pageWidth = carousel.offsetWidth
-      this.currentPage = Math.round(scrollLeft / pageWidth)
+    updateScrollButtons() {
+      const carousel = this.$refs.carousel
+      if (!carousel) return
+
+      // Get scroll metrics
+      const scrollLeft = carousel.scrollLeft
+      const scrollWidth = carousel.scrollWidth
+      const clientWidth = carousel.clientWidth
+
+      // In RTL, scrollLeft can be 0 or negative
+      // At start (rightmost): scrollLeft is close to 0
+      // At end (leftmost): scrollLeft is most negative
+
+      const maxScrollLeft = -(scrollWidth - clientWidth)
+
+      this.canScrollPrev = scrollLeft < -10 // Can go back if we've scrolled forward
+      this.canScrollNext = scrollLeft > maxScrollLeft + 10 // Can go forward if not at end
+    },
+
+    updateCurrentPage() {
+      const carousel = this.$refs.carousel
+      if (!carousel || this.totalPages <= 1) return
+
+      const scrollLeft = carousel.scrollLeft
+      const pageWidth = carousel.clientWidth
+
+      // Calculate current page from scroll position
+      // In RTL: scrollLeft = 0 is page 0, scrollLeft = -pageWidth is page 1
+      const calculatedPage = Math.round(Math.abs(scrollLeft) / pageWidth)
+      this.currentPage = Math.max(0, Math.min(calculatedPage, this.totalPages - 1))
     },
 
     calculatePages() {
       const carousel = this.$refs.carousel
       if (!carousel) return
 
-      // Different item widths for mobile and desktop
-      const isMobile = window.innerWidth < 768
-      const itemWidth = isMobile ? (112 + 12) : (144 + 16) // w-28 vs w-36 + gap
-      const visibleItems = Math.floor(carousel.offsetWidth / itemWidth)
-      this.totalPages = Math.max(1, Math.ceil(this.categories.length / Math.max(1, visibleItems)))
-    },
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+      const itemWidth = isMobile ? 112 : 144 // w-28 or w-36
+      const gap = isMobile ? 12 : 16 // gap-3 or gap-4
+      const fullItemWidth = itemWidth + gap
 
-    goToPage(pageIndex) {
-      const carousel = this.$refs.carousel
-      if (!carousel) return
+      const containerWidth = carousel.clientWidth
+      const visibleItems = Math.floor(containerWidth / fullItemWidth)
 
-      const pageWidth = carousel.offsetWidth
-      // In RTL, need to go negative
-      carousel.scrollLeft = -(pageIndex * pageWidth)
-
-      setTimeout(() => this.updateButtons(), 300)
+      if (visibleItems >= this.categories.length) {
+        this.totalPages = 1
+      } else {
+        this.totalPages = Math.ceil(this.categories.length / Math.max(1, visibleItems))
+      }
     },
 
     handleResize() {
       this.calculatePages()
-      this.updateButtons()
+      this.updateScrollButtons()
+      this.updateCurrentPage()
     },
 
     selectCategory(category) {
@@ -227,22 +250,19 @@ export default {
     },
 
     handleTouchEnd() {
-      // Calculate swipe distance
       const swipeDistance = this.touchStartX - this.touchEndX
-      const minSwipeDistance = 50 // Minimum pixels to trigger swipe
+      const minSwipeDistance = 50
 
-      // In RTL: swipe left = next, swipe right = prev
       if (Math.abs(swipeDistance) > minSwipeDistance) {
         if (swipeDistance > 0) {
-          // Swiped left - go to next
-          this.scrollRight()
+          // Swiped left - scroll forward (next)
+          this.scrollToNext()
         } else {
-          // Swiped right - go to previous
-          this.scrollLeft()
+          // Swiped right - scroll back (prev)
+          this.scrollToPrev()
         }
       }
 
-      // Reset touch positions
       this.touchStartX = 0
       this.touchEndX = 0
     }
