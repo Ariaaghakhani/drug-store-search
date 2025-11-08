@@ -93,6 +93,7 @@ export default defineComponent({
       canScrollPrev: false,
       canScrollNext: true,
       currentDot: 0,
+      containerWidth: 0,
       categories: [
         {
           id: 1,
@@ -172,15 +173,21 @@ export default defineComponent({
 
   computed: {
     totalDots(): number {
-      const container = this.$refs.carouselContainer as HTMLElement
-      if (!container) return 1
-      const itemsPerView = Math.floor(container.clientWidth / 152) // 144px width + 16px gap
-      return Math.ceil(this.categories.length / itemsPerView)
+      // Use reactive containerWidth to ensure re-computation on resize
+      const width = this.containerWidth || 1
+      const itemsPerView = Math.floor(width / 152) // 144px width + 16px gap
+      return Math.max(1, Math.ceil(this.categories.length / Math.max(1, itemsPerView)))
     }
   },
 
   mounted() {
+    this.updateContainerWidth()
     this.handleScroll()
+    window.addEventListener('resize', this.handleResize)
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize)
   },
 
   methods: {
@@ -189,6 +196,10 @@ export default defineComponent({
       if (container) {
         const scrollAmount = container.clientWidth * 0.8
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
+        // Update state after smooth scroll completes
+        setTimeout(() => {
+          this.handleScroll()
+        }, 500)
       }
     },
 
@@ -197,6 +208,10 @@ export default defineComponent({
       if (container) {
         const scrollAmount = container.clientWidth * 0.8
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+        // Update state after smooth scroll completes
+        setTimeout(() => {
+          this.handleScroll()
+        }, 500)
       }
     },
 
@@ -211,8 +226,22 @@ export default defineComponent({
         if (maxScroll > 0) {
           const scrollPercentage = container.scrollLeft / maxScroll
           this.currentDot = Math.round(scrollPercentage * (this.totalDots - 1))
+        } else {
+          this.currentDot = 0
         }
       }
+    },
+
+    updateContainerWidth() {
+      const container = this.$refs.carouselContainer as HTMLElement
+      if (container) {
+        this.containerWidth = container.clientWidth
+      }
+    },
+
+    handleResize() {
+      this.updateContainerWidth()
+      this.handleScroll()
     },
 
     selectCategory(category: Category) {
