@@ -3,7 +3,7 @@
     <div class="flex gap-12 lg:gap-16 content-start flex-wrap md:flex-nowrap">
       <!-- Image/Illustration -->
       <div
-          class="aspect-square w-full rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 flex items-center justify-center relative overflow-hidden shadow-2xl">
+        class="aspect-square w-full rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 flex items-center justify-center relative overflow-hidden shadow-2xl">
         <!-- Decorative elements -->
         <div class="absolute inset-0 bg-white/5 backdrop-blur-3xl"/>
         <div class="absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"/>
@@ -23,7 +23,8 @@
 
         <!-- Main Heading -->
         <div>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 dark:text-white leading-tight">
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 dark:text-white leading-tight">
             سلامتی شما،
             <span class="text-brand-500 block mt-2">در درب منزل</span>
           </h1>
@@ -38,19 +39,19 @@
         <!-- Large ChatGPT-style Search Input -->
         <div class="relative">
           <textarea
-              v-model="searchQuery"
-              class="w-full px-6 py-5 pe-16 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all shadow-lg hover:shadow-xl"
-              placeholder="نام دارو یا محصول مورد نظر خود را جستجو کنید..."
-              rows="1"
-              style="min-height: 80px; max-height: 200px;"
-              @input="autoResize"
-              @keydown.enter.prevent="handleSearch"
+            v-model="searchQuery"
+            class="w-full p-6 pe-16 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all shadow-lg hover:shadow-xl"
+            placeholder="نام دارو یا محصول مورد نظر خود را جستجو کنید..."
+            rows="1"
+            style="min-height: 80px; max-height: 200px;"
+            @input="autoResize"
+            @keydown.enter.prevent="handleSearch"
           />
           <button
-              :class="{ '!bg-brand-100 !cursor-not-allowed' : !searchQuery.trim() }"
-              :disabled="!searchQuery.trim()"
-              class="w-12 h-12 absolute  left-4 bottom-4 p-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg"
-              @click="handleSearch"
+            :class="{ '!bg-gray-800/30 dark:!bg-gray-600/20 !cursor-not-allowed' : !searchQuery.trim() }"
+            :disabled="!searchQuery.trim()"
+            class="w-12 h-12 absolute duration-300 left-4 bottom-0 -translate-y-1/2 p-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg"
+            @click="handleSearch"
           >
             <UIcon class="w-6 h-6" name="i-heroicons-magnifying-glass"/>
           </button>
@@ -75,21 +76,21 @@
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 pt-4">
           <UButton
-              class="justify-center"
-              color="primary"
-              icon="i-heroicons-shopping-bag"
-              size="xl"
-              to="/medications"
+            class="justify-center"
+            color="primary"
+            icon="i-heroicons-shopping-bag"
+            size="xl"
+            to="/medications"
           >
             مشاهده داروها
           </UButton>
           <UButton
-              class="justify-center"
-              color="white"
-              icon="i-heroicons-chat-bubble-left-right"
-              size="xl"
-              variant="outline"
-              @click="openChat"
+            class="justify-center"
+            color="white"
+            icon="i-heroicons-chat-bubble-left-right"
+            size="xl"
+            variant="outline"
+            @click="openChat"
           >
             گفتگو با دستیار هوشمند
           </UButton>
