@@ -195,7 +195,8 @@ export default defineComponent({
       const container = this.$refs.carouselContainer as HTMLElement
       if (container) {
         const scrollAmount = container.clientWidth * 0.8
-        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
+        // In RTL, scrolling right (prev) means positive scrollLeft
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
         // Update state after smooth scroll completes
         setTimeout(() => {
           this.handleScroll()
@@ -207,7 +208,8 @@ export default defineComponent({
       const container = this.$refs.carouselContainer as HTMLElement
       if (container) {
         const scrollAmount = container.clientWidth * 0.8
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+        // In RTL, scrolling left (next) means negative scrollLeft
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
         // Update state after smooth scroll completes
         setTimeout(() => {
           this.handleScroll()
@@ -218,13 +220,18 @@ export default defineComponent({
     handleScroll() {
       const container = this.$refs.carouselContainer as HTMLElement
       if (container) {
-        this.canScrollPrev = container.scrollLeft > 10
-        this.canScrollNext = container.scrollLeft < container.scrollWidth - container.clientWidth - 10
+        // In RTL, scrollLeft is 0 at the start (right) and negative when scrolling left
+        const scrollLeft = Math.abs(container.scrollLeft)
+        const maxScroll = container.scrollWidth - container.clientWidth
+
+        // Can scroll prev (right) if we've scrolled away from the start
+        this.canScrollPrev = scrollLeft > 10
+        // Can scroll next (left) if we haven't reached the end
+        this.canScrollNext = scrollLeft < maxScroll - 10
 
         // Calculate current dot
-        const maxScroll = container.scrollWidth - container.clientWidth
         if (maxScroll > 0) {
-          const scrollPercentage = container.scrollLeft / maxScroll
+          const scrollPercentage = scrollLeft / maxScroll
           this.currentDot = Math.round(scrollPercentage * (this.totalDots - 1))
         } else {
           this.currentDot = 0
