@@ -4,7 +4,7 @@
       <!-- Previous Button - Hidden on mobile -->
       <div
           v-show="canScrollPrev"
-          class="absolute right-0 top-1/2 -translate-y-1/2 z-20 -mr-4 hidden md:block"
+          class="absolute start-0 top-1/2 -translate-y-1/2 z-20 -me-4 hidden md:block"
       >
         <button
             type="button"
@@ -18,7 +18,7 @@
       <!-- Next Button - Hidden on mobile -->
       <div
           v-show="canScrollNext"
-          class="absolute left-0 top-1/2 -translate-y-1/2 z-20 -ml-4 hidden md:block"
+          class="absolute end-0 top-1/2 -translate-y-1/2 z-20 -ms-4 hidden md:block"
       >
         <button
             type="button"

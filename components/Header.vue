@@ -153,7 +153,7 @@
               class="flex gap-4 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
           >
             <div class="w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
-              <img v-if="item.image" :src="item.image" :alt="item.name" class="w-full h-full object-cover" />
+              <img v-if="item.image" :src="item.image" :alt="item.name" class="w-full h-full object-cover" >
               <div v-else class="w-full h-full flex items-center justify-center">
                 <UIcon name="i-heroicons-photo" class="w-8 h-8 text-gray-400" />
               </div>
