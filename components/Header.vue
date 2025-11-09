@@ -1,5 +1,7 @@
 <template>
-  <header class="sticky top-0 z-50 transition-colors duration-300">
+  <header
+    class="sticky top-0 z-50 duration-300 bg-white/50 backdrop-blur-sm dark:bg-gray-950/50"
+  >
     <div class="max-w-7xl mx-auto px-4 lg:px-8">
       <div class="flex items-center justify-between h-16 lg:h-20 gap-4">
         <!-- Logo -->
