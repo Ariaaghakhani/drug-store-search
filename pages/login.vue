@@ -73,11 +73,11 @@
 
                 <!-- Reserve space for the error message -->
                 <div class="absolute left-0 right-0 mt-1">
-                  <transition name="fade">
+                  <Transition name="fade">
                     <p v-if="phoneError" class="text-sm text-red-600 dark:text-red-400 absolute">
                       {{ phoneError }}
                     </p>
-                  </transition>
+                  </Transition>
                 </div>
               </div>
 
@@ -254,7 +254,7 @@ export default {
         this.$nextTick(() => {
           if (this.otpInputs[0]) this.otpInputs[0].focus()
         })
-      } catch (error) {
+      } catch {
         this.phoneError = 'خطا در ارسال کد تایید. لطفا دوباره تلاش کنید.'
       } finally {
         this.isLoading = false
@@ -322,7 +322,7 @@ export default {
 
         // Redirect: this.$router.push('/dashboard')
 
-      } catch (error) {
+      } catch {
         this.otpError = 'کد تایید نادرست است.'
       } finally {
         this.isLoading = false

@@ -77,7 +77,7 @@
             ]"
           >
             <div class="text-sm lg:text-base whitespace-pre-wrap leading-relaxed">{{ message.content }}</div>
-            
+
             <!-- Product Recommendations -->
             <div v-if="message.products && message.products.length > 0" class="mt-4 space-y-3">
               <div
@@ -141,7 +141,7 @@
         v-if="!chatStore.isMinimized"
         class="p-4 lg:p-5 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
       >
-        <form @submit.prevent="sendMessage" class="flex gap-3">
+        <form class="flex gap-3" @submit.prevent="sendMessage">
           <UInput
             v-model="newMessage"
             placeholder="پیام خود را بنویسید..."
@@ -184,7 +184,7 @@ export default {
     chatStore() {
       return useChatStore()
     },
-    
+
     cartStore() {
       return useCartStore()
     },
@@ -209,7 +209,7 @@ export default {
         this.$nextTick(() => {
           this.scrollToBottom()
         })
-        
+
         if (!this.chatStore.isOpen) {
           this.unreadCount++
         }
@@ -241,7 +241,7 @@ export default {
 
       const message = this.newMessage.trim()
       this.newMessage = ''
-      
+
       await this.chatStore.sendMessage(message)
     },
 
@@ -250,12 +250,12 @@ export default {
         case 'view_product':
           this.$router.push(`/medications/${action.data}`)
           break
-        
+
         case 'add_to_cart':
-          const product = this.messages
+          { const product = this.messages
             .flatMap(m => m.products || [])
             .find(p => p.id === action.data)
-          
+
           if (product) {
             this.cartStore.addItem(product)
             const toast = useToast()
@@ -266,12 +266,12 @@ export default {
               color: 'green'
             })
           }
-          break
-        
+          break }
+
         case 'contact_pharmacist':
           this.$router.push('/contact-pharmacist')
           break
-        
+
         case 'search':
           this.$router.push(`/search?q=${encodeURIComponent(action.data)}`)
           break
