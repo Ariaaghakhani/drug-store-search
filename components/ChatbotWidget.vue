@@ -10,7 +10,12 @@
       @click="openChat"
     >
       <span class="hidden sm:inline font-bold">چت با دستیار هوشمند</span>
-      <UBadge v-if="unreadCount > 0" color="red" size="xs" class="absolute -top-2 -left-2">
+      <UBadge
+        v-if="unreadCount > 0"
+        color="red"
+        size="xs"
+        class="absolute -top-2 -left-2"
+      >
         {{ unreadCount }}
       </UBadge>
     </UButton>
@@ -20,13 +25,19 @@
       v-if="chatStore.isOpen"
       class="fixed bottom-8 right-8 z-50 flex flex-col bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 transition-all duration-300"
       :class="[
-        chatStore.isMinimized ? 'w-80 h-16' : 'w-[90vw] h-[85vh] sm:w-[450px] sm:h-[650px] lg:w-[480px] lg:h-[700px]'
+        chatStore.isMinimized
+          ? 'w-80 h-16'
+          : 'w-[90vw] h-[85vh] sm:w-[450px] sm:h-[650px] lg:w-[480px] lg:h-[700px]',
       ]"
     >
       <!-- Header -->
-      <div class="flex items-center justify-between p-4 lg:p-5 border-b border-gray-200 dark:border-gray-800 bg-brand-500 text-white rounded-t-2xl">
+      <div
+        class="flex items-center justify-between p-4 lg:p-5 border-b border-gray-200 dark:border-gray-800 bg-brand-500 text-white rounded-t-2xl"
+      >
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+          <div
+            class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center"
+          >
             <UIcon name="i-heroicons-sparkles" class="w-7 h-7" />
           </div>
           <div>
@@ -39,7 +50,11 @@
             color="white"
             variant="ghost"
             size="sm"
-            :icon="chatStore.isMinimized ? 'i-heroicons-chevron-up' : 'i-heroicons-minus'"
+            :icon="
+              chatStore.isMinimized
+                ? 'i-heroicons-chevron-up'
+                : 'i-heroicons-minus'
+            "
             square
             @click="toggleMinimize"
           />
@@ -65,7 +80,7 @@
           :key="message.id"
           :class="[
             'flex',
-            message.role === 'user' ? 'justify-start' : 'justify-end'
+            message.role === 'user' ? 'justify-start' : 'justify-end',
           ]"
         >
           <div
@@ -73,13 +88,20 @@
               'max-w-[85%] rounded-2xl px-4 py-3 lg:px-5 lg:py-4',
               message.role === 'user'
                 ? 'bg-brand-500 text-white rounded-br-sm'
-                : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-bl-sm shadow-md'
+                : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-bl-sm shadow-md',
             ]"
           >
-            <div class="text-sm lg:text-base whitespace-pre-wrap leading-relaxed">{{ message.content }}</div>
+            <div
+              class="text-sm lg:text-base whitespace-pre-wrap leading-relaxed"
+            >
+              {{ message.content }}
+            </div>
 
             <!-- Product Recommendations -->
-            <div v-if="message.products && message.products.length > 0" class="mt-4 space-y-3">
+            <div
+              v-if="message.products && message.products.length > 0"
+              class="mt-4 space-y-3"
+            >
               <div
                 v-for="product in message.products"
                 :key="product.id"
@@ -87,25 +109,42 @@
                 @click="viewProduct(product)"
               >
                 <div class="flex items-center gap-3">
-                  <div class="w-14 h-14 rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
-                    <UIcon name="i-heroicons-cube" class="w-7 h-7 text-brand-500" />
+                  <div
+                    class="w-14 h-14 rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"
+                  >
+                    <UIcon
+                      name="i-heroicons-cube"
+                      class="w-7 h-7 text-brand-500"
+                    />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <h4 class="font-bold text-sm text-gray-900 dark:text-white truncate">
+                    <h4
+                      class="font-bold text-sm text-gray-900 dark:text-white truncate"
+                    >
                       {{ product.name }}
                     </h4>
-                    <p class="text-xs text-gray-500 truncate">{{ product.category }}</p>
+                    <p class="text-xs text-gray-500 truncate">
+                      {{ product.category }}
+                    </p>
                     <p class="text-sm font-black text-brand-500 mt-1">
                       {{ product.price.toLocaleString('fa-IR') }} تومان
                     </p>
                   </div>
-                  <UIcon name="i-heroicons-chevron-left" class="w-5 h-5 text-gray-400" />
+                  <UIcon
+                    name="i-heroicons-chevron-left"
+                    class="w-5 h-5 text-gray-400"
+                  />
                 </div>
               </div>
             </div>
 
             <!-- Suggested Actions -->
-            <div v-if="message.suggestedActions && message.suggestedActions.length > 0" class="mt-4 flex flex-wrap gap-2">
+            <div
+              v-if="
+                message.suggestedActions && message.suggestedActions.length > 0
+              "
+              class="mt-4 flex flex-wrap gap-2"
+            >
               <UButton
                 v-for="(action, index) in message.suggestedActions"
                 :key="index"
@@ -126,11 +165,22 @@
 
         <!-- Typing Indicator -->
         <div v-if="chatStore.isTyping" class="flex justify-end">
-          <div class="bg-white dark:bg-gray-800 rounded-2xl px-5 py-4 shadow-md">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-2xl px-5 py-4 shadow-md"
+          >
             <div class="flex gap-1.5">
-              <div class="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0ms" />
-              <div class="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 150ms" />
-              <div class="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 300ms" />
+              <div
+                class="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce"
+                style="animation-delay: 0ms"
+              />
+              <div
+                class="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce"
+                style="animation-delay: 150ms"
+              />
+              <div
+                class="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce"
+                style="animation-delay: 300ms"
+              />
             </div>
           </div>
         </div>
@@ -176,7 +226,7 @@ export default {
   data() {
     return {
       newMessage: '',
-      unreadCount: 0
+      unreadCount: 0,
     }
   },
 
@@ -191,7 +241,7 @@ export default {
 
     messages() {
       return this.chatStore.currentMessages
-    }
+    },
   },
 
   watch: {
@@ -214,8 +264,8 @@ export default {
           this.unreadCount++
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 
   methods: {
@@ -251,10 +301,10 @@ export default {
           this.$router.push(`/medications/${action.data}`)
           break
 
-        case 'add_to_cart':
-          { const product = this.messages
-            .flatMap(m => m.products || [])
-            .find(p => p.id === action.data)
+        case 'add_to_cart': {
+          const product = this.messages
+            .flatMap((m) => m.products || [])
+            .find((p) => p.id === action.data)
 
           if (product) {
             this.cartStore.addItem(product)
@@ -263,10 +313,11 @@ export default {
               title: 'به سبد خرید اضافه شد',
               description: product.name,
               icon: 'i-heroicons-check-circle',
-              color: 'green'
+              color: 'green',
             })
           }
-          break }
+          break
+        }
 
         case 'contact_pharmacist':
           this.$router.push('/contact-pharmacist')
@@ -285,7 +336,7 @@ export default {
     formatTime(date) {
       return new Date(date).toLocaleTimeString('fa-IR', {
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       })
     },
 
@@ -294,14 +345,15 @@ export default {
       if (container) {
         container.scrollTop = container.scrollHeight
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
