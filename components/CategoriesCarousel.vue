@@ -27,7 +27,7 @@
       <!-- Carousel Container -->
       <div
         ref="carouselContainer"
-        class="overflow-x-auto scrollbar-hide scroll-smooth mx-12"
+        class="overflow-x-auto scrollbar-hide scroll-smooth mx-6 md:mx-12"
         @scroll="handleScroll"
       >
         <div class="flex gap-4 pb-2">
@@ -35,25 +35,25 @@
           <div
             v-for="category in categories"
             :key="category.id"
-            class="flex-shrink-0 w-32 sm:w-40"
+            class="flex-shrink-0 w-20 sm:w-40"
           >
             <button
-              class="w-full p-4 rounded-xl bg-white dark:bg-gray-800 hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all group"
+              class="w-full p-4 rounded-xl bg-white dark:bg-transparent hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all group"
               :class="
                 selectedCategory?.id === category.id
-                  ? ' bg-brand-50 dark:bg-brand-900/20'
+                  ? ' bg-brand-50 dark:bg-brand-900/0'
                   : ' hover:border-brand-300'
               "
               @click="selectCategory(category)"
             >
-              <div class="flex flex-col items-center gap-3">
+              <span class="flex flex-col items-center gap-3">
                 <!-- Icon -->
-                <div
-                  class="w-20 h-20 rounded-full flex items-center justify-center transition-colors"
+                <span
+                  class="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-colors"
                   :class="
                     selectedCategory?.id === category.id
                       ? 'bg-brand-500'
-                      : 'bg-brand-100 dark:bg-brand-900/30 group-hover:bg-brand-200'
+                      : 'bg-brand-100 dark:bg-brand-900 group-hover:bg-brand-200'
                   "
                 >
                   <UIcon
@@ -65,9 +65,9 @@
                         : 'text-brand-600 dark:text-brand-400'
                     "
                   />
-                </div>
+                </span>
                 <!-- Text -->
-                <div
+                <span
                   class="text-sm font-medium text-center line-clamp-2"
                   :class="
                     selectedCategory?.id === category.id
@@ -76,8 +76,8 @@
                   "
                 >
                   {{ category.name }}
-                </div>
-              </div>
+                </span>
+              </span>
             </button>
           </div>
         </div>

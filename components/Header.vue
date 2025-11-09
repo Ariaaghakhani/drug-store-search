@@ -1,6 +1,6 @@
 <template>
   <header
-    class="sticky top-0 z-50 duration-300 bg-white/50 backdrop-blur-sm dark:bg-gray-950/50"
+    class="sticky top-0 z-50 duration-300 bg-white/50 backdrop-blur-sm dark:bg-gray-900 dark:border-b dark:border-b-brand-700/50"
   >
     <div class="max-w-7xl mx-auto px-4 lg:px-8">
       <div class="flex items-center justify-between h-16 lg:h-20 gap-4">
@@ -67,20 +67,6 @@
 
         <!-- Actions -->
         <div class="flex items-center gap-1 lg:gap-2">
-          <!-- Messages -->
-          <button
-            class="relative w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
-            aria-label="پیام‌ها"
-          >
-            <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5" />
-            <span
-              v-if="unreadMessages > 0"
-              class="absolute top-1 left-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none"
-            >
-              {{ unreadMessages }}
-            </span>
-          </button>
-
           <!-- Search -->
           <button
             class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
@@ -127,6 +113,16 @@
           >
             <UIcon name="i-heroicons-user" class="w-5 h-5" />
           </button>
+
+          <UButton
+            class="p-4 hidden md:flex"
+            icon="mdi:headset"
+            to="/supports"
+            size="xl"
+            dir="ltr"
+          >
+            تماس با پشتیبانی
+          </UButton>
 
           <!-- Mobile Menu Toggle -->
           <button
@@ -264,28 +260,31 @@
     <!-- Mobile Menu -->
     <Transition
       enter-active-class="transition-all duration-300 ease-out"
-      enter-from-class="opacity-0 translate-x-full"
-      enter-to-class="opacity-100 translate-x-0"
+      enter-from-class="opacity-0 -translate-y-full"
+      enter-to-class="opacity-100 translate-y-0"
       leave-active-class="transition-all duration-300 ease-in"
-      leave-from-class="opacity-100 translate-x-0"
-      leave-to-class="opacity-0 translate-x-full"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-full"
     >
       <div
         v-if="mobileMenuOpen"
-        class="fixed inset-0 z-50 md:hidden"
+        class="fixed inset-0 z-50 md:hidden w-full bg-white"
         @click="closeMobileMenu"
       >
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/50" />
+        <div
+          class="absolute inset-0 bg-black/50 h-[200vh] w-full"
+          @click.stop="closeMobileMenu"
+        />
 
         <!-- Menu Panel -->
         <div
-          class="absolute top-0 right-0 w-80 max-w-[85vw] h-full bg-white dark:bg-gray-900 shadow-2xl"
+          class="absolute top-0 right-0 w-full h-full bg-white dark:bg-gray-900 shadow-2xl"
           @click.stop
         >
           <!-- Menu Header -->
           <div
-            class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800"
+            class="flex bg-white items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800"
           >
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 flex items-center justify-center">
@@ -318,7 +317,7 @@
           </div>
 
           <!-- Menu Items -->
-          <nav class="p-4 space-y-2">
+          <nav class="p-4 bg-white">
             <NuxtLink
               to="/"
               class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
@@ -359,6 +358,11 @@
               <UIcon name="i-heroicons-information-circle" class="w-5 h-5" />
               <span class="font-semibold">درباره ما</span>
             </NuxtLink>
+            <div class="px-4 py-3 w-full">
+              <UButton to="/supports" class="p-4 text-sm" icon="mdi-headset">
+                تماس با پشتیبانی
+              </UButton>
+            </div>
           </nav>
         </div>
       </div>
@@ -374,8 +378,6 @@ const cartStore = useCartStore()
 
 const mobileMenuOpen = ref(false)
 const cartDropdownOpen = ref(false)
-const unreadMessages = ref(1)
-
 const cartItemsCount = computed(() => cartStore.itemCount)
 
 const toggleDarkMode = () => {
