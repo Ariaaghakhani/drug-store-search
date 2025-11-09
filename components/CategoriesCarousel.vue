@@ -7,7 +7,10 @@
         class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         @click="scrollPrev"
       >
-        <UIcon name="i-heroicons-chevron-right-20-solid" class="w-6 h-6 text-gray-700 dark:text-gray-300" />
+        <UIcon
+          name="i-heroicons-chevron-right-20-solid"
+          class="w-6 h-6 text-gray-700 dark:text-gray-300"
+        />
       </button>
 
       <button
@@ -15,7 +18,10 @@
         class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         @click="scrollNext"
       >
-        <UIcon name="i-heroicons-chevron-left-20-solid" class="w-6 h-6 text-gray-700 dark:text-gray-300" />
+        <UIcon
+          name="i-heroicons-chevron-left-20-solid"
+          class="w-6 h-6 text-gray-700 dark:text-gray-300"
+        />
       </button>
 
       <!-- Carousel Container -->
@@ -33,25 +39,41 @@
           >
             <button
               class="w-full p-4 rounded-xl bg-white dark:bg-gray-800 hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all group"
-              :class="selectedCategory?.id === category.id ? ' bg-brand-50 dark:bg-brand-900/20' : ' hover:border-brand-300'"
+              :class="
+                selectedCategory?.id === category.id
+                  ? ' bg-brand-50 dark:bg-brand-900/20'
+                  : ' hover:border-brand-300'
+              "
               @click="selectCategory(category)"
             >
               <div class="flex flex-col items-center gap-3">
                 <!-- Icon -->
                 <div
                   class="w-20 h-20 rounded-full flex items-center justify-center transition-colors"
-                  :class="selectedCategory?.id === category.id ? 'bg-brand-500' : 'bg-brand-100 dark:bg-brand-900/30 group-hover:bg-brand-200'"
+                  :class="
+                    selectedCategory?.id === category.id
+                      ? 'bg-brand-500'
+                      : 'bg-brand-100 dark:bg-brand-900/30 group-hover:bg-brand-200'
+                  "
                 >
                   <UIcon
                     :name="category.icon"
                     class="w-7 h-7 transition-colors"
-                    :class="selectedCategory?.id === category.id ? 'text-white' : 'text-brand-600 dark:text-brand-400'"
+                    :class="
+                      selectedCategory?.id === category.id
+                        ? 'text-white'
+                        : 'text-brand-600 dark:text-brand-400'
+                    "
                   />
                 </div>
                 <!-- Text -->
                 <div
                   class="text-sm font-medium text-center line-clamp-2"
-                  :class="selectedCategory?.id === category.id ? 'text-brand-600 dark:text-brand-400' : 'text-gray-700 dark:text-gray-300'"
+                  :class="
+                    selectedCategory?.id === category.id
+                      ? 'text-brand-600 dark:text-brand-400'
+                      : 'text-gray-700 dark:text-gray-300'
+                  "
                 >
                   {{ category.name }}
                 </div>
@@ -67,7 +89,11 @@
           v-for="(dot, index) in totalDots"
           :key="index"
           class="w-2 h-2 rounded-full transition-all"
-          :class="currentDot === index ? 'bg-brand-500 w-6' : 'bg-gray-300 dark:bg-gray-600'"
+          :class="
+            currentDot === index
+              ? 'bg-brand-500 w-6'
+              : 'bg-gray-300 dark:bg-gray-600'
+          "
         />
       </div>
     </div>
@@ -99,75 +125,75 @@ export default defineComponent({
           id: 1,
           name: 'مسکن و ضد درد',
           icon: 'i-heroicons-heart',
-          slug: 'pain-relief'
+          slug: 'pain-relief',
         },
         {
           id: 2,
           name: 'ویتامین و مکمل',
           icon: 'i-heroicons-beaker',
-          slug: 'vitamins'
+          slug: 'vitamins',
         },
         {
           id: 3,
           name: 'قلب و عروق',
           icon: 'i-heroicons-heart-pulse',
-          slug: 'cardiovascular'
+          slug: 'cardiovascular',
         },
         {
           id: 4,
           name: 'گوارش',
           icon: 'i-heroicons-sparkles',
-          slug: 'digestive'
+          slug: 'digestive',
         },
         {
           id: 5,
           name: 'پوست و مو',
           icon: 'i-heroicons-user',
-          slug: 'skin-hair'
+          slug: 'skin-hair',
         },
         {
           id: 6,
           name: 'اعصاب و روان',
           icon: 'i-heroicons-brain',
-          slug: 'mental-health'
+          slug: 'mental-health',
         },
         {
           id: 7,
           name: 'تنفسی',
           icon: 'i-heroicons-lungs',
-          slug: 'respiratory'
+          slug: 'respiratory',
         },
         {
           id: 8,
           name: 'کودکان',
           icon: 'i-heroicons-baby',
-          slug: 'children'
+          slug: 'children',
         },
         {
           id: 9,
           name: 'زنان',
           icon: 'i-heroicons-venus',
-          slug: 'women'
+          slug: 'women',
         },
         {
           id: 10,
           name: 'دیابت',
           icon: 'i-heroicons-drop',
-          slug: 'diabetes'
+          slug: 'diabetes',
         },
         {
           id: 11,
           name: 'آنتی بیوتیک',
           icon: 'i-heroicons-shield-check',
-          slug: 'antibiotics'
+          slug: 'antibiotics',
         },
         {
           id: 12,
           name: 'چشم و بینایی',
           icon: 'i-heroicons-eye',
-          slug: 'eye-care'
-        }
-      ] as Category[]
+          slug: 'eye-care',
+        },
+      ] as Category[],
     }
   },
 
@@ -176,8 +202,11 @@ export default defineComponent({
       // Use reactive containerWidth to ensure re-computation on resize
       const width = this.containerWidth || 1
       const itemsPerView = Math.floor(width / 152) // 144px width + 16px gap
-      return Math.max(1, Math.ceil(this.categories.length / Math.max(1, itemsPerView)))
-    }
+      return Math.max(
+        1,
+        Math.ceil(this.categories.length / Math.max(1, itemsPerView))
+      )
+    },
   },
 
   mounted() {
@@ -255,8 +284,8 @@ export default defineComponent({
       this.selectedCategory = category
       // Navigate to medications page with category filter
       this.$router.push(`/medications?category=${category.slug}`)
-    }
-  }
+    },
+  },
 })
 </script>
 

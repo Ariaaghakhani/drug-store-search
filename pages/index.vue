@@ -10,7 +10,7 @@
     </div>
 
     <UContainer>
-      <CategoriesCarousel/>
+      <CategoriesCarousel />
     </UContainer>
 
     <!-- Stats Section - Contained -->
@@ -36,31 +36,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "IndexPage",
+  name: 'IndexPage',
 
   head() {
     return {
-      title: "داروخانه آنلاین | سلامتی در درب منزل",
+      title: 'داروخانه آنلاین | سلامتی در درب منزل',
       meta: [
         {
-          name: "description",
+          name: 'description',
           content:
-            "دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید. داروسازان مجرب ۲۴/۷ در خدمت شما",
+            'دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید. داروسازان مجرب ۲۴/۷ در خدمت شما',
         },
         {
-          property: "og:title",
-          content: "داروخانه آنلاین | سلامتی در درب منزل",
+          property: 'og:title',
+          content: 'داروخانه آنلاین | سلامتی در درب منزل',
         },
         {
-          property: "og:description",
+          property: 'og:description',
           content:
-            "دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید",
+            'دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید',
         },
       ],
-    };
+    }
   },
-});
+})
 </script>

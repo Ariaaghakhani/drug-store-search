@@ -39,19 +39,23 @@
     </div>
 
     <!-- Next Delivery Info -->
-    <div class="mt-8 p-6 bg-brand-50 dark:bg-brand-900/20 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div
+      class="mt-8 p-6 bg-brand-50 dark:bg-brand-900/20 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4"
+    >
       <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0">
+        <div
+          class="w-14 h-14 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0"
+        >
           <UIcon name="i-heroicons-truck" class="w-7 h-7 text-white" />
         </div>
         <div>
-          <div class="font-bold text-gray-900 dark:text-white text-lg">ارسال بعدی</div>
+          <div class="font-bold text-gray-900 dark:text-white text-lg">
+            ارسال بعدی
+          </div>
           <div class="text-gray-600 dark:text-gray-400">امروز، ساعت ۱۴:۰۰</div>
         </div>
       </div>
-      <UButton size="lg" color="primary" variant="soft">
-        پیگیری سفارش
-      </UButton>
+      <UButton size="lg" color="primary" variant="soft"> پیگیری سفارش </UButton>
     </div>
   </section>
 </template>
@@ -70,9 +74,9 @@ export default defineComponent({
         deliveryTime: '۲۴ ساعت',
         deliveryLabel: 'زمان تحویل',
         accuracyRate: '۹۹.۹٪',
-        accuracyLabel: 'دقت سفارش'
-      }
+        accuracyLabel: 'دقت سفارش',
+      },
     }
-  }
+  },
 })
 </script>
