@@ -83,7 +83,7 @@
 
                   <!-- Price -->
                   <div class="text-lg font-black text-brand-500">
-                    {{ (item.price * item.quantity).toLocaleString("fa-IR") }}
+                    {{ (item.price * item.quantity).toLocaleString('fa-IR') }}
                     تومان
                   </div>
                 </div>
@@ -118,7 +118,7 @@
                   >
                   <span class="font-bold"
                     >{{
-                      cartStore.subtotal.toLocaleString("fa-IR")
+                      cartStore.subtotal.toLocaleString('fa-IR')
                     }}
                     تومان</span
                   >
@@ -130,8 +130,8 @@
                   <span class="font-bold">
                     {{
                       shippingCost > 0
-                        ? shippingCost.toLocaleString("fa-IR") + " تومان"
-                        : "رایگان"
+                        ? shippingCost.toLocaleString('fa-IR') + ' تومان'
+                        : 'رایگان'
                     }}
                   </span>
                 </div>
@@ -142,7 +142,7 @@
                   >جمع کل:</span
                 >
                 <span class="font-black text-brand-500 text-2xl">
-                  {{ cartStore.total.toLocaleString("fa-IR") }} تومان
+                  {{ cartStore.total.toLocaleString('fa-IR') }} تومان
                 </span>
               </div>
 
@@ -168,7 +168,7 @@
               <UIcon name="i-heroicons-truck" class="w-6 h-6 text-brand-500" />
               <div class="text-sm">
                 <div class="font-bold text-gray-900 dark:text-white">
-                  {{ (500000 - cartStore.subtotal).toLocaleString("fa-IR") }}
+                  {{ (500000 - cartStore.subtotal).toLocaleString('fa-IR') }}
                   تومان تا ارسال رایگان
                 </div>
                 <div class="text-gray-500">برای خرید بالای ۵۰۰,۰۰۰ تومان</div>
@@ -182,52 +182,52 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useCartStore } from "~/stores/cart";
+import { defineComponent } from 'vue'
+import { useCartStore } from '~/stores/cart'
 
 export default defineComponent({
-  name: "CartPage",
+  name: 'CartPage',
 
   head() {
     return {
-      title: "سبد خرید | داروخانه آنلاین",
-    };
+      title: 'سبد خرید | داروخانه آنلاین',
+    }
   },
 
   computed: {
     cartStore() {
-      return useCartStore();
+      return useCartStore()
     },
 
     shippingCost(): number {
-      return this.cartStore.subtotal > 500000 ? 0 : 59900;
+      return this.cartStore.subtotal > 500000 ? 0 : 59900
     },
   },
 
   methods: {
     increaseQuantity(productId: string) {
-      const item = this.cartStore.items.find((i) => i.id === productId);
+      const item = this.cartStore.items.find((i) => i.id === productId)
       if (item) {
-        this.cartStore.updateQuantity(productId, item.quantity + 1);
+        this.cartStore.updateQuantity(productId, item.quantity + 1)
       }
     },
 
     decreaseQuantity(productId: string) {
-      const item = this.cartStore.items.find((i) => i.id === productId);
+      const item = this.cartStore.items.find((i) => i.id === productId)
       if (item && item.quantity > 1) {
-        this.cartStore.updateQuantity(productId, item.quantity - 1);
+        this.cartStore.updateQuantity(productId, item.quantity - 1)
       }
     },
 
     removeItem(productId: string) {
-      this.cartStore.removeItem(productId);
-      const toast = useToast();
+      this.cartStore.removeItem(productId)
+      const toast = useToast()
       toast.add({
-        title: "از سبد خرید حذف شد",
-        icon: "i-heroicons-trash",
-        color: "red",
-      });
+        title: 'از سبد خرید حذف شد',
+        icon: 'i-heroicons-trash',
+        color: 'red',
+      })
     },
   },
-});
+})
 </script>

@@ -1,9 +1,13 @@
 <template>
   <section class="py-16">
     <!-- Section Header -->
-    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12 gap-6">
+    <div
+      class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12 gap-6"
+    >
       <div>
-        <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white">
+        <h2
+          class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white"
+        >
           محصولات <span class="text-brand-500">ویژه</span>
         </h2>
         <p class="text-gray-600 dark:text-gray-400 mt-3 text-lg">
@@ -23,7 +27,9 @@
     </div>
 
     <!-- Products Grid - Responsive -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"
+    >
       <ProductCard
         v-for="product in featuredProducts"
         :key="product.id"
@@ -49,10 +55,9 @@
   </section>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import { useCartStore } from '~/stores/cart'
-import type { Product } from '~/types/product'
 
 export default defineComponent({
   name: 'FeaturedProducts',
@@ -70,8 +75,9 @@ export default defineComponent({
           reviewCount: 1247,
           image: '/images/products/vitamin-d3.jpg',
           inStock: true,
-          badge: 'Popular' as const,
-          description: 'ویتامین D3 با دوز بالا برای تقویت استخوان و سیستم ایمنی'
+          badge: 'Popular',
+          description:
+            'ویتامین D3 با دوز بالا برای تقویت استخوان و سیستم ایمنی',
         },
         {
           id: '2',
@@ -82,8 +88,8 @@ export default defineComponent({
           reviewCount: 892,
           image: '/images/products/ibuprofen.jpg',
           inStock: true,
-          badge: 'Best Seller' as const,
-          description: 'ضد درد و کاهش‌دهنده تب با اثر سریع'
+          badge: 'Best Seller',
+          description: 'ضد درد و کاهش‌دهنده تب با اثر سریع',
         },
         {
           id: '3',
@@ -95,8 +101,8 @@ export default defineComponent({
           reviewCount: 2156,
           image: '/images/products/omega-3.jpg',
           inStock: true,
-          badge: 'Premium' as const,
-          description: 'روغن ماهی با کیفیت بالا برای سلامت قلب و عروق'
+          badge: 'Premium',
+          description: 'روغن ماهی با کیفیت بالا برای سلامت قلب و عروق',
         },
         {
           id: '4',
@@ -107,36 +113,36 @@ export default defineComponent({
           reviewCount: 743,
           image: '/images/products/multivitamin.jpg',
           inStock: true,
-          badge: 'New' as const,
-          description: 'تغذیه کامل روزانه با ویتامین‌ها و مواد معدنی ضروری'
-        }
-      ] as Product[]
+          badge: 'New',
+          description: 'تغذیه کامل روزانه با ویتامین‌ها و مواد معدنی ضروری',
+        },
+      ],
     }
   },
 
   computed: {
     cartStore() {
       return useCartStore()
-    }
+    },
   },
 
   methods: {
-    handleAddToCart(product: Product) {
+    handleAddToCart(product) {
       this.cartStore.addItem(product)
-      
+
       const toast = useToast()
       toast.add({
         title: 'به سبد خرید اضافه شد',
         description: product.name,
         icon: 'i-heroicons-check-circle',
-        color: 'green'
+        color: 'green',
       })
     },
 
-    handleQuickView(product: Product) {
+    handleQuickView(product) {
       // TODO: Implement quick view modal
       console.log('Quick view:', product)
-    }
-  }
+    },
+  },
 })
 </script>
