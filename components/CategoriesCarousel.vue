@@ -29,7 +29,7 @@
           <div
             v-for="category in categories"
             :key="category.id"
-            class="flex-shrink-0 w-32 sm:w-36"
+            class="flex-shrink-0 w-32 sm:w-40"
           >
             <button
               class="w-full p-4 rounded-xl bg-white dark:bg-gray-800 hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all group"
@@ -39,7 +39,7 @@
               <div class="flex flex-col items-center gap-3">
                 <!-- Icon -->
                 <div
-                  class="w-14 h-14 rounded-full flex items-center justify-center transition-colors"
+                  class="w-20 h-20 rounded-full flex items-center justify-center transition-colors"
                   :class="selectedCategory?.id === category.id ? 'bg-brand-500' : 'bg-brand-100 dark:bg-brand-900/30 group-hover:bg-brand-200'"
                 >
                   <UIcon
@@ -194,7 +194,7 @@ export default defineComponent({
     scrollPrev() {
       const container = this.$refs.carouselContainer as HTMLElement
       if (container) {
-        const scrollAmount = container.clientWidth * 0.8
+        const scrollAmount = container.clientWidth
         // In RTL, scrolling right (prev) means positive scrollLeft
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
         // Update state after smooth scroll completes
@@ -207,7 +207,7 @@ export default defineComponent({
     scrollNext() {
       const container = this.$refs.carouselContainer as HTMLElement
       if (container) {
-        const scrollAmount = container.clientWidth * 0.8
+        const scrollAmount = container.clientWidth
         // In RTL, scrolling left (next) means negative scrollLeft
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
         // Update state after smooth scroll completes
