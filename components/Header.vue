@@ -249,23 +249,23 @@
                   {{ formatPrice(item.price * item.quantity) }} تومان
                 </p>
                 <!-- Quantity Controls -->
-                <div class="flex items-center gap-2 mt-2">
-                  <button
-                    class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-                    @click.stop="decrementQuantity(item.id)"
-                  >
-                    <UIcon name="i-heroicons-minus" class="w-4 h-4" />
-                  </button>
-                  <span
-                    class="text-sm font-semibold text-gray-900 dark:text-white min-w-[2rem] text-center"
-                  >
-                    {{ item.quantity }}
-                  </span>
+                <div class="flex items-center gap-2 mt-2" dir="ltr">
                   <button
                     class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
                     @click.stop="incrementQuantity(item.id)"
                   >
                     <UIcon name="i-heroicons-plus" class="w-4 h-4" />
+                  </button>
+                  <span
+                    class="text-sm font-semibold text-gray-900 dark:text-white min-w-[2rem] text-center"
+                  >
+                    {{ item.quantity.toLocaleString('fa-IR') }}
+                  </span>
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                    @click.stop="decrementQuantity(item.id)"
+                  >
+                    <UIcon name="i-heroicons-minus" class="w-4 h-4" />
                   </button>
                 </div>
               </div>
