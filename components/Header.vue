@@ -52,6 +52,7 @@
               :popper="{ placement: 'bottom' }"
               :ui="{
                 content: 'font-dana w-56',
+                item: 'before:!bg-transparent hover:before:!bg-transparent',
               }"
             >
               <button
@@ -656,3 +657,23 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+:deep(button[role='menuitem']) {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+
+:deep(button[role='menuitem']:focus) {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+
+:deep(button[role='menuitem']:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+</style>
