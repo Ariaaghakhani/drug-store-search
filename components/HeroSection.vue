@@ -3,7 +3,7 @@
     <div class="flex gap-12 lg:gap-16 content-start flex-wrap md:flex-nowrap">
       <!-- Image/Illustration -->
       <div
-        class="aspect-square hidden md:flex md:w-2/5 rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 flex items-center justify-center relative overflow-hidden shadow-2xl"
+        class="aspect-square hidden md:flex md:w-2/5 rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 items-center justify-center relative overflow-hidden shadow-2xl"
       >
         <!-- Decorative elements -->
         <div class="absolute inset-0 bg-white/5 backdrop-blur-3xl" />
