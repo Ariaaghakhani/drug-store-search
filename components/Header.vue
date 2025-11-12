@@ -47,14 +47,15 @@
             <!-- Nav Item with Dropdown Menu -->
             <UDropdownMenu
               v-else
+              dir="rtl"
               :items="[item.menu]"
               :popper="{ placement: 'bottom' }"
               :ui="{
-                content: 'font-dana w-56'
+                content: 'font-dana w-56',
               }"
             >
               <button
-                class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
+                class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400"
               >
                 {{ item.title }}
                 <UIcon name="mdi:menu-down" class="w-4 h-4" />
