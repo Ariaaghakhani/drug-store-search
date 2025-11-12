@@ -538,6 +538,7 @@ export default {
   mounted() {
     document.addEventListener('click', this.handleClickOutside)
     window.addEventListener('resize', this.handleResize)
+    this.cartStore.loadCartItems()
   },
 
   beforeUnmount() {

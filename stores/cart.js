@@ -31,6 +31,18 @@ export const useCartStore = defineStore('cart', {
   },
 
   actions: {
+    loadCartItems() {
+      if (this.items.length === 0) {
+        const saved = localStorage.getItem('cart')
+        if (saved) {
+          try {
+            this.items = JSON.parse(saved) // Need to parse the JSON string
+          } catch (e) {
+            console.error('Failed to load cart from storage', e)
+          }
+        }
+      }
+    },
     addItem(product) {
       const existingItem = this.items.find((item) => item.id === product.id)
 
