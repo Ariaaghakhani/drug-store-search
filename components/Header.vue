@@ -50,13 +50,7 @@
               :items="[item.menu]"
               :popper="{ placement: 'bottom' }"
               :ui="{
-                content: 'font-dana w-56',
-                item: {
-                  base: 'text-right transition-all duration-200',
-                  label: 'text-right',
-                  active: 'bg-teal-50 dark:bg-teal-950 text-teal-600 dark:text-teal-400',
-                  inactive: 'hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400'
-                }
+                content: 'font-dana w-56'
               }"
             >
               <button
@@ -67,11 +61,14 @@
               </button>
 
               <template #item="{ item: menuItem }">
-                <div class="flex items-center gap-3 w-full" dir="rtl">
+                <div
+                  class="flex items-center gap-3 w-full px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all rounded-lg cursor-pointer"
+                  dir="rtl"
+                >
                   <UIcon
                     v-if="menuItem.icon"
                     :name="menuItem.icon"
-                    class="w-5 h-5 transition-colors"
+                    class="w-5 h-5"
                   />
                   <span class="font-dana">{{ menuItem.label }}</span>
                 </div>
