@@ -611,10 +611,22 @@ export default {
 
     updateCartDropdownPosition() {
       if (this.$refs.cartButton) {
-        const buttonRect = this.$refs.cartButton.getBoundingClientRect()
-        this.cartDropdownStyle = {
-          top: `${buttonRect.bottom + 18}px`,
-          left: `${buttonRect.right - 192}px`, // 384px is w-96
+        const isMobile = window.innerWidth < 768
+
+        if (isMobile) {
+          // On mobile, center the dropdown horizontally and position below header
+          this.cartDropdownStyle = {
+            top: '80px', // Below the header
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }
+        } else {
+          // On desktop, position relative to cart button
+          const buttonRect = this.$refs.cartButton.getBoundingClientRect()
+          this.cartDropdownStyle = {
+            top: `${buttonRect.bottom + 18}px`,
+            left: `${buttonRect.right - 192}px`, // 384px is w-96 (half width)
+          }
         }
       }
     },
