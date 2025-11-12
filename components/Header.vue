@@ -52,8 +52,10 @@
               :ui="{
                 content: 'font-dana w-56',
                 item: {
-                  base: 'text-right',
-                  label: 'text-right'
+                  base: 'text-right transition-all duration-200',
+                  label: 'text-right',
+                  active: 'bg-teal-50 dark:bg-teal-950 text-teal-600 dark:text-teal-400',
+                  inactive: 'hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400'
                 }
               }"
             >
@@ -69,7 +71,7 @@
                   <UIcon
                     v-if="menuItem.icon"
                     :name="menuItem.icon"
-                    class="w-5 h-5"
+                    class="w-5 h-5 transition-colors"
                   />
                   <span class="font-dana">{{ menuItem.label }}</span>
                 </div>
