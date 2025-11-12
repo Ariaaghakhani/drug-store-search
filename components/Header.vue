@@ -2,7 +2,7 @@
   <header
     class="sticky top-0 z-50 duration-300 bg-white/50 backdrop-blur-sm dark:bg-gray-900 dark:border-b dark:border-b-brand-700/50"
   >
-    <div class="max-w-7xl mx-auto px-4 lg:px-8">
+    <div class="mx-auto px-4 lg:px-8">
       <div class="flex items-center justify-between h-16 lg:h-20 gap-4">
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-3 flex-shrink-0">
@@ -18,51 +18,85 @@
                 cx="16"
                 cy="16"
                 r="16"
-                :fill="colorMode.value === 'dark' ? '#14B8A6' : '#2C7A7B'"
+                :fill="colorMode === 'dark' ? '#14B8A6' : '#2C7A7B'"
               />
               <circle cx="16" cy="16" r="8" fill="white" />
             </svg>
           </div>
           <span
             class="text-xl lg:text-2xl font-black text-gray-900 dark:text-white"
-            >دارو پلاس</span
           >
+            دارو پلاس
+          </span>
         </NuxtLink>
 
         <!-- Desktop Navigation -->
         <nav
-          class="hidden md:flex items-center gap-6 lg:gap-8 flex-1 justify-center"
+          class="hidden md:flex items-center gap-6 lg:gap-8 flex-1 justify-start"
         >
-          <NuxtLink
-            to="/"
-            class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-          >
-            صفحه اصلی
-          </NuxtLink>
-          <NuxtLink
-            to="/medications"
-            class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-          >
-            داروها
-          </NuxtLink>
-          <NuxtLink
-            to="/products"
-            class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-          >
-            محصولات سلامت
-          </NuxtLink>
-          <NuxtLink
-            to="/wellness"
-            class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-          >
-            سلامت و تندرستی
-          </NuxtLink>
-          <NuxtLink
-            to="/about"
-            class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-          >
-            درباره ما
-          </NuxtLink>
+          <template v-for="item in navItems" :key="item.route || item.title">
+            <!-- Regular Nav Item -->
+            <NuxtLink
+              v-if="!item.menu"
+              :to="item.route"
+              class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
+            >
+              {{ item.title }}
+            </NuxtLink>
+
+            <!-- Nav Item with Dropdown -->
+            <div
+              v-else
+              class="relative"
+              @mouseenter="openDropdown(item.title)"
+              @mouseleave="closeDropdown(item.title)"
+            >
+              <button
+                class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
+                :class="{
+                  'text-teal-500 dark:text-teal-400':
+                    activeDropdown === item.title,
+                }"
+                @click="toggleDropdown(item.title)"
+              >
+                {{ item.title }}
+                <UIcon
+                  name="mdi:menu-down"
+                  class="w-4 h-4 transition-transform"
+                />
+              </button>
+
+              <!-- Dropdown Menu -->
+              <Transition
+                enter-active-class="transition-all duration-200 ease-out"
+                enter-from-class="opacity-0 translate-y-2"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition-all duration-150 ease-in"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 translate-y-2"
+              >
+                <div
+                  v-if="activeDropdown === item.title"
+                  class="absolute top-full left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 py-2"
+                >
+                  <NuxtLink
+                    v-for="subItem in item.menu"
+                    :key="subItem.route"
+                    :to="subItem.route"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                    @click="closeDropdown(item.title)"
+                  >
+                    <UIcon
+                      v-if="subItem.icon"
+                      :name="subItem.icon"
+                      class="w-5 h-5"
+                    />
+                    {{ subItem.title }}
+                  </NuxtLink>
+                </div>
+              </Transition>
+            </div>
+          </template>
         </nav>
 
         <!-- Actions -->
@@ -77,6 +111,7 @@
 
           <!-- Cart -->
           <button
+            ref="cartButton"
             class="relative w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
             aria-label="سبد خرید"
             @click="toggleCartDropdown"
@@ -98,9 +133,7 @@
           >
             <UIcon
               :name="
-                colorMode.value === 'dark'
-                  ? 'i-heroicons-sun'
-                  : 'i-heroicons-moon'
+                colorMode === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
               "
               class="w-5 h-5"
             />
@@ -136,126 +169,135 @@
       </div>
     </div>
 
-    <!-- Cart Dropdown -->
-    <Transition
-      enter-active-class="transition-all duration-200 ease-out"
-      enter-from-class="opacity-0 translate-y-2"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition-all duration-150 ease-in"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-2"
-    >
-      <div
-        v-if="cartDropdownOpen"
-        class="absolute left-4 top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 z-50"
-        @click.stop
+    <!-- Cart Dropdown - Positioned outside container -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-all duration-200 ease-out"
+        enter-from-class="opacity-0 translate-y-2"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition-all duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 translate-y-2"
       >
-        <!-- Dropdown Header -->
         <div
-          class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800"
+          v-if="cartStore.isOpen"
+          ref="cartDropdown"
+          dir="rtl"
+          class="fixed font-dana w-96 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 z-[60]"
+          :style="cartDropdownStyle"
+          @click.stop
         >
-          <div class="flex items-center gap-2">
-            <UIcon
-              name="i-heroicons-shopping-cart"
-              class="w-5 h-5 text-teal-500"
-            />
-            <h3 class="text-base font-bold text-gray-900 dark:text-white">
-              سبد خرید
-            </h3>
-            <span class="text-sm text-gray-500 dark:text-gray-400"
-              >({{ cartItemsCount }} مورد)</span
-            >
-          </div>
-          <button
-            class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-            @click="closeCartDropdown"
-          >
-            <UIcon name="i-heroicons-x-mark" class="w-5 h-5" />
-          </button>
-        </div>
-
-        <!-- Cart Items -->
-        <div v-if="cartStore.hasItems" class="max-h-96 overflow-y-auto">
+          <!-- Dropdown Header -->
           <div
-            v-for="item in cartStore.items"
-            :key="item.id"
-            class="flex gap-4 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+            class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800"
           >
-            <div
-              class="w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden"
-            >
-              <img
-                v-if="item.image"
-                :src="item.image"
-                :alt="item.name"
-                class="w-full h-full object-cover"
+            <div class="flex items-center gap-2">
+              <UIcon
+                name="i-heroicons-shopping-cart"
+                class="w-5 h-5 text-teal-500"
               />
-              <div
-                v-else
-                class="w-full h-full flex items-center justify-center"
-              >
-                <UIcon name="i-heroicons-photo" class="w-8 h-8 text-gray-400" />
-              </div>
-            </div>
-            <div class="flex-1 min-w-0">
-              <h4
-                class="text-sm font-semibold text-gray-900 dark:text-white truncate"
-              >
-                {{ item.name }}
-              </h4>
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                تعداد: {{ item.quantity }}
-              </p>
-              <p
-                class="text-sm font-bold text-teal-600 dark:text-teal-400 mt-1"
-              >
-                {{ formatPrice(item.price * item.quantity) }} تومان
-              </p>
+              <h3 class="text-base font-bold text-gray-900 dark:text-white">
+                سبد خرید
+              </h3>
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                ({{ cartItemsCount }} مورد)
+              </span>
             </div>
             <button
-              class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-all"
-              @click="removeFromCart(item.id)"
+              class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+              @click="closeCartDropdown"
             >
-              <UIcon name="i-heroicons-trash" class="w-4 h-4" />
+              <UIcon name="i-heroicons-x-mark" class="w-5 h-5" />
             </button>
           </div>
-        </div>
 
-        <!-- Empty State -->
-        <div v-else class="p-8 text-center">
-          <UIcon
-            name="i-heroicons-shopping-cart"
-            class="w-16 h-16 text-gray-300 dark:text-gray-700 mx-auto mb-3"
-          />
-          <p class="text-gray-500 dark:text-gray-400 text-sm">
-            سبد خرید شما خالی است
-          </p>
-        </div>
-
-        <!-- Dropdown Footer -->
-        <div
-          v-if="cartStore.hasItems"
-          class="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800"
-        >
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-sm font-semibold text-gray-700 dark:text-gray-300"
-              >جمع کل:</span
+          <!-- Cart Items -->
+          <div v-if="cartStore.hasItems" class="max-h-96 overflow-y-auto">
+            <div
+              v-for="item in cartStore.items"
+              :key="item.id"
+              class="flex gap-4 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
-            <span class="text-lg font-bold text-teal-600 dark:text-teal-400">
-              {{ formatPrice(cartStore.subtotal) }} تومان
-            </span>
+              <div
+                class="w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden"
+              >
+                <img
+                  v-if="item.image"
+                  :src="item.image"
+                  :alt="item.name"
+                  class="w-full h-full object-cover"
+                />
+                <div
+                  v-else
+                  class="w-full h-full flex items-center justify-center"
+                >
+                  <UIcon
+                    name="i-heroicons-photo"
+                    class="w-8 h-8 text-gray-400"
+                  />
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4
+                  class="text-sm font-semibold text-gray-900 dark:text-white truncate"
+                >
+                  {{ item.name }}
+                </h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  تعداد: {{ item.quantity }}
+                </p>
+                <p
+                  class="text-sm font-bold text-teal-600 dark:text-teal-400 mt-1"
+                >
+                  {{ formatPrice(item.price * item.quantity) }} تومان
+                </p>
+              </div>
+              <button
+                class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-all"
+                @click="removeFromCart(item.id)"
+              >
+                <UIcon name="i-heroicons-trash" class="w-4 h-4" />
+              </button>
+            </div>
           </div>
-          <NuxtLink
-            to="/cart"
-            class="w-full h-11 flex items-center justify-center rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-all"
-            @click="closeCartDropdown"
+
+          <!-- Empty State -->
+          <div v-else class="p-8 text-center">
+            <UIcon
+              name="i-heroicons-shopping-cart"
+              class="w-16 h-16 text-gray-300 dark:text-gray-700 mx-auto mb-3"
+            />
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+              سبد خرید شما خالی است
+            </p>
+          </div>
+
+          <!-- Dropdown Footer -->
+          <div
+            v-if="cartStore.hasItems"
+            class="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800"
           >
-            مشاهده سبد خرید
-            <UIcon name="i-heroicons-arrow-left" class="w-4 h-4 mr-2" />
-          </NuxtLink>
-        </div>
-      </div>
-    </Transition>
+            <div class="flex items-center justify-between mb-4">
+              <span
+                class="text-sm font-semibold text-gray-700 dark:text-gray-300"
+              >
+                جمع کل:
+              </span>
+              <span class="text-lg font-bold text-teal-600 dark:text-teal-400">
+                {{ formatPrice(cartStore.subtotal) }} تومان
+              </span>
+            </div>
+            <NuxtLink
+              to="/cart"
+              class="w-full h-11 flex items-center justify-center rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-all"
+              @click="closeCartDropdown"
+            >
+              مشاهده سبد خرید
+              <UIcon name="i-heroicons-arrow-left" class="w-4 h-4 mr-2" />
+            </NuxtLink>
+          </div>
+        </div> </Transition
+    ></Teleport>
 
     <!-- Mobile Menu -->
     <Transition
@@ -299,14 +341,14 @@
                     cx="16"
                     cy="16"
                     r="16"
-                    :fill="colorMode.value === 'dark' ? '#14B8A6' : '#2C7A7B'"
+                    :fill="colorMode === 'dark' ? '#14B8A6' : '#2C7A7B'"
                   />
                   <circle cx="16" cy="16" r="8" fill="white" />
                 </svg>
               </div>
-              <span class="text-lg font-black text-gray-900 dark:text-white"
-                >دارو پلاس</span
-              >
+              <span class="text-lg font-black text-gray-900 dark:text-white">
+                دارو پلاس
+              </span>
             </div>
             <button
               class="p-2 rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
@@ -318,46 +360,69 @@
 
           <!-- Menu Items -->
           <nav class="p-4 bg-white">
-            <NuxtLink
-              to="/"
-              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-              @click="closeMobileMenu"
-            >
-              <UIcon name="i-heroicons-home" class="w-5 h-5" />
-              <span class="font-semibold">صفحه اصلی</span>
-            </NuxtLink>
-            <NuxtLink
-              to="/medications"
-              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-              @click="closeMobileMenu"
-            >
-              <UIcon name="i-heroicons-beaker" class="w-5 h-5" />
-              <span class="font-semibold">داروها</span>
-            </NuxtLink>
-            <NuxtLink
-              to="/products"
-              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-              @click="closeMobileMenu"
-            >
-              <UIcon name="i-heroicons-heart" class="w-5 h-5" />
-              <span class="font-semibold">محصولات سلامت</span>
-            </NuxtLink>
-            <NuxtLink
-              to="/wellness"
-              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-              @click="closeMobileMenu"
-            >
-              <UIcon name="i-heroicons-sparkles" class="w-5 h-5" />
-              <span class="font-semibold">سلامت و تندرستی</span>
-            </NuxtLink>
-            <NuxtLink
-              to="/about"
-              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-              @click="closeMobileMenu"
-            >
-              <UIcon name="i-heroicons-information-circle" class="w-5 h-5" />
-              <span class="font-semibold">درباره ما</span>
-            </NuxtLink>
+            <template v-for="item in navItems" :key="item.route || item.title">
+              <!-- Regular Menu Item -->
+              <NuxtLink
+                v-if="!item.menu"
+                :to="item.route"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                @click="closeMobileMenu"
+              >
+                <UIcon :name="item.icon" class="w-5 h-5" />
+                <span class="font-semibold">{{ item.title }}</span>
+              </NuxtLink>
+
+              <!-- Menu Item with Submenu -->
+              <div v-else class="mb-2">
+                <button
+                  class="flex items-center justify-between w-full px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                  @click="toggleMobileDropdown(item.title)"
+                >
+                  <div class="flex items-center gap-3">
+                    <UIcon :name="item.icon" class="w-5 h-5" />
+                    <span class="font-semibold">{{ item.title }}</span>
+                  </div>
+                  <UIcon
+                    name="i-heroicons-chevron-down"
+                    class="w-4 h-4 transition-transform"
+                    :class="{
+                      'rotate-180': activeMobileDropdown === item.title,
+                    }"
+                  />
+                </button>
+
+                <!-- Submenu Items -->
+                <Transition
+                  enter-active-class="transition-all duration-200"
+                  enter-from-class="opacity-0 max-h-0"
+                  enter-to-class="opacity-100 max-h-96"
+                  leave-active-class="transition-all duration-200"
+                  leave-from-class="opacity-100 max-h-96"
+                  leave-to-class="opacity-0 max-h-0"
+                >
+                  <div
+                    v-if="activeMobileDropdown === item.title"
+                    class="mr-4 mt-1 overflow-hidden"
+                  >
+                    <NuxtLink
+                      v-for="subItem in item.menu"
+                      :key="subItem.route"
+                      :to="subItem.route"
+                      class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                      @click="closeMobileMenu"
+                    >
+                      <UIcon
+                        v-if="subItem.icon"
+                        :name="subItem.icon"
+                        class="w-4 h-4"
+                      />
+                      {{ subItem.title }}
+                    </NuxtLink>
+                  </div>
+                </Transition>
+              </div>
+            </template>
+
             <div class="px-4 py-3 w-full">
               <UButton to="/supports" class="p-4 text-sm" icon="mdi-headset">
                 تماس با پشتیبانی
@@ -370,88 +435,218 @@
   </header>
 </template>
 
-<script setup>
+<script>
 import { useCartStore } from '~/stores/cart'
 
-const colorMode = useColorMode()
-const cartStore = useCartStore()
+export default {
+  name: 'AppHeader',
+  setup() {
+    const cartStore = useCartStore()
+    return { cartStore }
+  },
+  data() {
+    return {
+      mobileMenuOpen: false,
+      cartDropdownOpen: false,
+      activeDropdown: null,
+      activeMobileDropdown: null,
+      cartDropdownStyle: {},
+      navItems: [
+        {
+          title: 'داروها',
+          route: '/medications',
+          icon: 'i-heroicons-beaker',
+          menu: [
+            {
+              title: 'داروهای بدون نسخه',
+              route: '/medications/otc',
+              icon: 'i-heroicons-shopping-bag',
+            },
+            {
+              title: 'داروهای تجویزی',
+              route: '/medications/prescription',
+              icon: 'i-heroicons-document-text',
+            },
+            {
+              title: 'مکمل‌ها و ویتامین‌ها',
+              route: '/medications/supplements',
+              icon: 'i-heroicons-cube',
+            },
+          ],
+        },
+        {
+          title: 'سلامت و تندرستی',
+          route: '/wellness',
+          icon: 'i-heroicons-sparkles',
+          menu: [
+            {
+              title: 'مقالات سلامت',
+              route: '/wellness/articles',
+              icon: 'i-heroicons-newspaper',
+            },
+            {
+              title: 'راهنمای تغذیه',
+              route: '/wellness/nutrition',
+              icon: 'i-heroicons-cake',
+            },
+            {
+              title: 'ورزش و تناسب اندام',
+              route: '/wellness/fitness',
+              icon: 'i-heroicons-bolt',
+            },
+          ],
+        },
+        {
+          title: 'محصولات سلامت',
+          route: '/products',
+          icon: 'i-heroicons-heart',
+        },
 
-const mobileMenuOpen = ref(false)
-const cartDropdownOpen = ref(false)
-const cartItemsCount = computed(() => cartStore.itemCount)
+        {
+          title: 'درباره ما',
+          route: '/about',
+          icon: 'i-heroicons-information-circle',
+        },
+      ],
+    }
+  },
 
-const toggleDarkMode = () => {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
+  computed: {
+    colorMode() {
+      return useColorMode().value
+    },
 
-const toggleMobileMenu = () => {
-  mobileMenuOpen.value = !mobileMenuOpen.value
-  if (mobileMenuOpen.value) {
-    document.body.style.overflow = 'hidden'
-  } else {
+    cartItemsCount() {
+      return this.cartStore.itemCount
+    },
+  },
+
+  watch: {
+    'cartStore.items.length': {
+      handler(newLength, oldLength) {
+        if (newLength > oldLength) {
+          this.cartDropdownOpen = true
+          // Auto-close after 3 seconds
+          setTimeout(() => {
+            this.cartDropdownOpen = false
+          }, 3000)
+        }
+      },
+    },
+  },
+
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside)
+    window.addEventListener('resize', this.handleResize)
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside)
+    window.removeEventListener('resize', this.handleResize)
     document.body.style.overflow = ''
-  }
-}
+  },
 
-const closeMobileMenu = () => {
-  mobileMenuOpen.value = false
-  document.body.style.overflow = ''
-}
+  methods: {
+    toggleDarkMode() {
+      const colorMode = useColorMode()
+      colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+    },
 
-const toggleCartDropdown = () => {
-  cartDropdownOpen.value = !cartDropdownOpen.value
-}
-
-const closeCartDropdown = () => {
-  cartDropdownOpen.value = false
-}
-
-const removeFromCart = (productId) => {
-  cartStore.removeItem(productId)
-}
-
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('fa-IR').format(price)
-}
-
-// Close dropdown when clicking outside
-onMounted(() => {
-  const handleClickOutside = (event) => {
-    if (cartDropdownOpen.value) {
-      const target = event.target
-      const cartButton = document.querySelector('[aria-label="سبد خرید"]')
-      const cartDropdown = document.querySelector('.absolute.left-4.top-full')
-
-      if (
-        cartButton &&
-        cartDropdown &&
-        !cartButton.contains(target) &&
-        !cartDropdown.contains(target)
-      ) {
-        closeCartDropdown()
+    toggleMobileMenu() {
+      this.mobileMenuOpen = !this.mobileMenuOpen
+      if (this.mobileMenuOpen) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
       }
-    }
-  }
+    },
 
-  document.addEventListener('click', handleClickOutside)
+    closeMobileMenu() {
+      this.mobileMenuOpen = false
+      this.activeMobileDropdown = null
+      document.body.style.overflow = ''
+    },
 
-  onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
-    document.body.style.overflow = ''
-  })
-})
+    toggleCartDropdown() {
+      this.cartStore.isOpen = !this.cartStore.isOpen
+      if (this.cartStore.isOpen) {
+        this.$nextTick(() => {
+          this.updateCartDropdownPosition()
+        })
+      }
+    },
 
-// Watch for cart changes and show dropdown
-watch(
-  () => cartStore.items.length,
-  (newLength, oldLength) => {
-    if (newLength > oldLength) {
-      cartDropdownOpen.value = true
-      // Auto-close after 3 seconds
-      setTimeout(() => {
-        cartDropdownOpen.value = false
-      }, 3000)
-    }
-  }
-)
+    closeCartDropdown() {
+      this.cartStore.isOpen = false
+    },
+
+    updateCartDropdownPosition() {
+      if (this.$refs.cartButton) {
+        const buttonRect = this.$refs.cartButton.getBoundingClientRect()
+        this.cartDropdownStyle = {
+          top: `${buttonRect.bottom + 18}px`,
+          left: `${buttonRect.right - 192}px`, // 384px is w-96
+        }
+      }
+    },
+
+    openDropdown(title) {
+      this.activeDropdown = title
+    },
+
+    closeDropdown(title) {
+      if (this.activeDropdown === title) {
+        this.activeDropdown = null
+      }
+    },
+
+    toggleDropdown(title) {
+      this.activeDropdown = this.activeDropdown === title ? null : title
+    },
+
+    toggleMobileDropdown(title) {
+      this.activeMobileDropdown =
+        this.activeMobileDropdown === title ? null : title
+    },
+
+    removeFromCart(productId) {
+      this.cartStore.removeItem(productId)
+    },
+
+    formatPrice(price) {
+      return new Intl.NumberFormat('fa-IR').format(price)
+    },
+
+    handleClickOutside(event) {
+      const target = event.target
+      const cartButton = this.$refs.cartButton
+      const cartDropdown = this.$refs.cartDropdown
+      // Handle cart dropdown
+      if (this.cartStore.isOpen) {
+        if (
+          cartButton &&
+          cartDropdown &&
+          !cartButton.contains(target) &&
+          !cartDropdown.contains(target)
+        ) {
+          this.closeCartDropdown()
+        }
+      }
+
+      // Handle navigation dropdowns
+      if (this.activeDropdown) {
+        const isInsideDropdown = target.closest('.relative')
+        if (!isInsideDropdown) {
+          this.activeDropdown = null
+        }
+      }
+    },
+
+    handleResize() {
+      if (this.cartStore.isOpen) {
+        this.updateCartDropdownPosition()
+      }
+    },
+  },
+}
 </script>

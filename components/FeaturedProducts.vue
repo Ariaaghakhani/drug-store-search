@@ -129,7 +129,7 @@ export default defineComponent({
   methods: {
     handleAddToCart(product) {
       this.cartStore.addItem(product)
-
+      this.cartStore.isOpen = true
       const toast = useToast()
       toast.add({
         title: 'به سبد خرید اضافه شد',
