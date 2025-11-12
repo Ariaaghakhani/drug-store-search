@@ -44,58 +44,19 @@
               {{ item.title }}
             </NuxtLink>
 
-            <!-- Nav Item with Dropdown -->
-            <div
+            <!-- Nav Item with Dropdown Menu -->
+            <UDropdownMenu
               v-else
-              class="relative"
-              @mouseenter="openDropdown(item.title)"
-              @mouseleave="closeDropdown(item.title)"
+              :items="[item.menu]"
+              :popper="{ placement: 'bottom' }"
             >
               <button
                 class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-                :class="{
-                  'text-teal-500 dark:text-teal-400':
-                    activeDropdown === item.title,
-                }"
-                @click="toggleDropdown(item.title)"
               >
                 {{ item.title }}
-                <UIcon
-                  name="mdi:menu-down"
-                  class="w-4 h-4 transition-transform"
-                />
+                <UIcon name="mdi:menu-down" class="w-4 h-4" />
               </button>
-
-              <!-- Dropdown Menu -->
-              <Transition
-                enter-active-class="transition-all duration-200 ease-out"
-                enter-from-class="opacity-0 translate-y-2"
-                enter-to-class="opacity-100 translate-y-0"
-                leave-active-class="transition-all duration-150 ease-in"
-                leave-from-class="opacity-100 translate-y-0"
-                leave-to-class="opacity-0 translate-y-2"
-              >
-                <div
-                  v-if="activeDropdown === item.title"
-                  class="absolute top-full left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 py-2"
-                >
-                  <NuxtLink
-                    v-for="subItem in item.menu"
-                    :key="subItem.route"
-                    :to="subItem.route"
-                    class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-                    @click="closeDropdown(item.title)"
-                  >
-                    <UIcon
-                      v-if="subItem.icon"
-                      :name="subItem.icon"
-                      class="w-5 h-5"
-                    />
-                    {{ subItem.title }}
-                  </NuxtLink>
-                </div>
-              </Transition>
-            </div>
+            </UDropdownMenu>
           </template>
         </nav>
 
@@ -423,8 +384,8 @@
                   >
                     <NuxtLink
                       v-for="subItem in item.menu"
-                      :key="subItem.route"
-                      :to="subItem.route"
+                      :key="subItem.to"
+                      :to="subItem.to"
                       class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
                       @click="closeMobileMenu"
                     >
@@ -433,7 +394,7 @@
                         :name="subItem.icon"
                         class="w-4 h-4"
                       />
-                      {{ subItem.title }}
+                      {{ subItem.label }}
                     </NuxtLink>
                   </div>
                 </Transition>
@@ -465,7 +426,6 @@ export default {
     return {
       mobileMenuOpen: false,
       cartDropdownOpen: false,
-      activeDropdown: null,
       activeMobileDropdown: null,
       cartDropdownStyle: {},
       navItems: [
@@ -475,18 +435,18 @@ export default {
           icon: 'i-heroicons-beaker',
           menu: [
             {
-              title: 'داروهای بدون نسخه',
-              route: '/medications/otc',
+              label: 'داروهای بدون نسخه',
+              to: '/medications/otc',
               icon: 'i-heroicons-shopping-bag',
             },
             {
-              title: 'داروهای تجویزی',
-              route: '/medications/prescription',
+              label: 'داروهای تجویزی',
+              to: '/medications/prescription',
               icon: 'i-heroicons-document-text',
             },
             {
-              title: 'مکمل‌ها و ویتامین‌ها',
-              route: '/medications/supplements',
+              label: 'مکمل‌ها و ویتامین‌ها',
+              to: '/medications/supplements',
               icon: 'i-heroicons-cube',
             },
           ],
@@ -497,18 +457,18 @@ export default {
           icon: 'i-heroicons-sparkles',
           menu: [
             {
-              title: 'مقالات سلامت',
-              route: '/wellness/articles',
+              label: 'مقالات سلامت',
+              to: '/wellness/articles',
               icon: 'i-heroicons-newspaper',
             },
             {
-              title: 'راهنمای تغذیه',
-              route: '/wellness/nutrition',
+              label: 'راهنمای تغذیه',
+              to: '/wellness/nutrition',
               icon: 'i-heroicons-cake',
             },
             {
-              title: 'ورزش و تناسب اندام',
-              route: '/wellness/fitness',
+              label: 'ورزش و تناسب اندام',
+              to: '/wellness/fitness',
               icon: 'i-heroicons-bolt',
             },
           ],
@@ -631,20 +591,6 @@ export default {
       }
     },
 
-    openDropdown(title) {
-      this.activeDropdown = title
-    },
-
-    closeDropdown(title) {
-      if (this.activeDropdown === title) {
-        this.activeDropdown = null
-      }
-    },
-
-    toggleDropdown(title) {
-      this.activeDropdown = this.activeDropdown === title ? null : title
-    },
-
     toggleMobileDropdown(title) {
       this.activeMobileDropdown =
         this.activeMobileDropdown === title ? null : title
@@ -670,6 +616,7 @@ export default {
       const target = event.target
       const cartButton = this.$refs.cartButton
       const cartDropdown = this.$refs.cartDropdown
+
       // Handle cart dropdown
       if (this.cartStore.isOpen) {
         if (
@@ -679,14 +626,6 @@ export default {
           !cartDropdown.contains(target)
         ) {
           this.closeCartDropdown()
-        }
-      }
-
-      // Handle navigation dropdowns
-      if (this.activeDropdown) {
-        const isInsideDropdown = target.closest('.relative')
-        if (!isInsideDropdown) {
-          this.activeDropdown = null
         }
       }
     },
