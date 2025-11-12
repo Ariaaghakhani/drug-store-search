@@ -49,6 +49,13 @@
               v-else
               :items="[item.menu]"
               :popper="{ placement: 'bottom' }"
+              :ui="{
+                content: 'font-dana w-56',
+                item: {
+                  base: 'text-right',
+                  label: 'text-right'
+                }
+              }"
             >
               <button
                 class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
@@ -56,6 +63,17 @@
                 {{ item.title }}
                 <UIcon name="mdi:menu-down" class="w-4 h-4" />
               </button>
+
+              <template #item="{ item: menuItem }">
+                <div class="flex items-center gap-3 w-full" dir="rtl">
+                  <UIcon
+                    v-if="menuItem.icon"
+                    :name="menuItem.icon"
+                    class="w-5 h-5"
+                  />
+                  <span class="font-dana">{{ menuItem.label }}</span>
+                </div>
+              </template>
             </UDropdownMenu>
           </template>
         </nav>
