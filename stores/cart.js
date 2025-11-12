@@ -79,6 +79,26 @@ export const useCartStore = defineStore('cart', {
       this.saveToStorage()
     },
 
+    incrementQuantity(productId) {
+      const item = this.items.find((item) => item.id === productId)
+      if (item) {
+        item.quantity++
+        this.saveToStorage()
+      }
+    },
+
+    decrementQuantity(productId) {
+      const item = this.items.find((item) => item.id === productId)
+      if (item) {
+        if (item.quantity > 1) {
+          item.quantity--
+          this.saveToStorage()
+        } else {
+          this.removeItem(productId)
+        }
+      }
+    },
+
     clearCart() {
       this.items = []
       this.saveToStorage()

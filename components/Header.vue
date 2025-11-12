@@ -216,7 +216,7 @@
             <div
               v-for="item in cartStore.items"
               :key="item.id"
-              class="flex gap-4 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+              class="flex gap-3 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
               <div
                 class="w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden"
@@ -243,18 +243,35 @@
                 >
                   {{ item.name }}
                 </h4>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  تعداد: {{ item.quantity }}
-                </p>
                 <p
                   class="text-sm font-bold text-teal-600 dark:text-teal-400 mt-1"
                 >
                   {{ formatPrice(item.price * item.quantity) }} تومان
                 </p>
+                <!-- Quantity Controls -->
+                <div class="flex items-center gap-2 mt-2">
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                    @click.stop="decrementQuantity(item.id)"
+                  >
+                    <UIcon name="i-heroicons-minus" class="w-4 h-4" />
+                  </button>
+                  <span
+                    class="text-sm font-semibold text-gray-900 dark:text-white min-w-[2rem] text-center"
+                  >
+                    {{ item.quantity }}
+                  </span>
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                    @click.stop="incrementQuantity(item.id)"
+                  >
+                    <UIcon name="i-heroicons-plus" class="w-4 h-4" />
+                  </button>
+                </div>
               </div>
               <button
                 class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-all"
-                @click="removeFromCart(item.id)"
+                @click.stop="removeFromCart(item.id)"
               >
                 <UIcon name="i-heroicons-trash" class="w-4 h-4" />
               </button>
@@ -623,6 +640,14 @@ export default {
 
     removeFromCart(productId) {
       this.cartStore.removeItem(productId)
+    },
+
+    incrementQuantity(productId) {
+      this.cartStore.incrementQuantity(productId)
+    },
+
+    decrementQuantity(productId) {
+      this.cartStore.decrementQuantity(productId)
     },
 
     formatPrice(price) {
