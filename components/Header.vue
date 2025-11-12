@@ -533,6 +533,17 @@ export default {
         }
       },
     },
+
+    'cartStore.isOpen': {
+      handler(isOpen) {
+        if (isOpen) {
+          this.$nextTick(() => {
+            this.updateCartDropdownPosition()
+          })
+        }
+      },
+      immediate: true,
+    },
   },
 
   mounted() {
