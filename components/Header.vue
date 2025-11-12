@@ -249,7 +249,7 @@
                   {{ formatPrice(item.price * item.quantity) }} تومان
                 </p>
                 <!-- Quantity Controls -->
-                <div class="flex items-center gap-2 mt-2" dir="ltr">
+                <div class="flex items-center gap-2 mt-4">
                   <button
                     class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
                     @click.stop="incrementQuantity(item.id)"
