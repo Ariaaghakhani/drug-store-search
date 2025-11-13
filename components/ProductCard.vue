@@ -30,7 +30,7 @@
             color="white"
             icon="i-heroicons-eye"
             size="lg"
-            @click="$emit('quickView', product)"
+            @click.stop="$emit('quickView', product)"
           >
             مشاهده سریع
           </UButton>
@@ -109,7 +109,7 @@
         :disabled="!product.inStock"
         icon="i-heroicons-shopping-cart"
         class="mt-4"
-        @click="$emit('addToCart', product)"
+        @click.stop="$emit('addToCart', product)"
       >
         {{ product.inStock ? 'افزودن به سبد خرید' : 'اطلاع‌رسانی موجودی' }}
       </UButton>

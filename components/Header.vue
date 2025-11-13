@@ -44,58 +44,38 @@
               {{ item.title }}
             </NuxtLink>
 
-            <!-- Nav Item with Dropdown -->
-            <div
+            <!-- Nav Item with Dropdown Menu -->
+            <UDropdownMenu
               v-else
-              class="relative"
-              @mouseenter="openDropdown(item.title)"
-              @mouseleave="closeDropdown(item.title)"
+              dir="rtl"
+              :items="[item.menu]"
+              :popper="{ placement: 'bottom' }"
+              :ui="{
+                content: 'font-dana w-56',
+                item: 'before:!bg-transparent hover:before:!bg-transparent',
+              }"
             >
               <button
-                class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
-                :class="{
-                  'text-teal-500 dark:text-teal-400':
-                    activeDropdown === item.title,
-                }"
-                @click="toggleDropdown(item.title)"
+                class="flex items-center gap-1 text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400"
               >
                 {{ item.title }}
-                <UIcon
-                  name="mdi:menu-down"
-                  class="w-4 h-4 transition-transform"
-                />
+                <UIcon name="mdi:menu-down" class="w-4 h-4" />
               </button>
 
-              <!-- Dropdown Menu -->
-              <Transition
-                enter-active-class="transition-all duration-200 ease-out"
-                enter-from-class="opacity-0 translate-y-2"
-                enter-to-class="opacity-100 translate-y-0"
-                leave-active-class="transition-all duration-150 ease-in"
-                leave-from-class="opacity-100 translate-y-0"
-                leave-to-class="opacity-0 translate-y-2"
-              >
+              <template #item="{ item: menuItem }">
                 <div
-                  v-if="activeDropdown === item.title"
-                  class="absolute top-full left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 py-2"
+                  class="flex items-center gap-3 w-full px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all rounded-lg cursor-pointer"
+                  dir="rtl"
                 >
-                  <NuxtLink
-                    v-for="subItem in item.menu"
-                    :key="subItem.route"
-                    :to="subItem.route"
-                    class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-                    @click="closeDropdown(item.title)"
-                  >
-                    <UIcon
-                      v-if="subItem.icon"
-                      :name="subItem.icon"
-                      class="w-5 h-5"
-                    />
-                    {{ subItem.title }}
-                  </NuxtLink>
+                  <UIcon
+                    v-if="menuItem.icon"
+                    :name="menuItem.icon"
+                    class="w-5 h-5"
+                  />
+                  <span class="font-dana">{{ menuItem.label }}</span>
                 </div>
-              </Transition>
-            </div>
+              </template>
+            </UDropdownMenu>
           </template>
         </nav>
 
@@ -216,7 +196,7 @@
             <div
               v-for="item in cartStore.items"
               :key="item.id"
-              class="flex gap-4 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+              class="flex gap-3 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
               <div
                 class="w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden"
@@ -243,18 +223,35 @@
                 >
                   {{ item.name }}
                 </h4>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  تعداد: {{ item.quantity }}
-                </p>
                 <p
                   class="text-sm font-bold text-teal-600 dark:text-teal-400 mt-1"
                 >
                   {{ formatPrice(item.price * item.quantity) }} تومان
                 </p>
+                <!-- Quantity Controls -->
+                <div class="flex items-center gap-2 mt-4">
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                    @click.stop="incrementQuantity(item.id)"
+                  >
+                    <UIcon name="i-heroicons-plus" class="w-4 h-4" />
+                  </button>
+                  <span
+                    class="text-sm font-semibold text-gray-900 dark:text-white min-w-[2rem] text-center"
+                  >
+                    {{ item.quantity.toLocaleString('fa-IR') }}
+                  </span>
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+                    @click.stop="decrementQuantity(item.id)"
+                  >
+                    <UIcon name="i-heroicons-minus" class="w-4 h-4" />
+                  </button>
+                </div>
               </div>
               <button
                 class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-all"
-                @click="removeFromCart(item.id)"
+                @click.stop="removeFromCart(item.id)"
               >
                 <UIcon name="i-heroicons-trash" class="w-4 h-4" />
               </button>
@@ -406,8 +403,8 @@
                   >
                     <NuxtLink
                       v-for="subItem in item.menu"
-                      :key="subItem.route"
-                      :to="subItem.route"
+                      :key="subItem.to"
+                      :to="subItem.to"
                       class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
                       @click="closeMobileMenu"
                     >
@@ -416,7 +413,7 @@
                         :name="subItem.icon"
                         class="w-4 h-4"
                       />
-                      {{ subItem.title }}
+                      {{ subItem.label }}
                     </NuxtLink>
                   </div>
                 </Transition>
@@ -448,7 +445,6 @@ export default {
     return {
       mobileMenuOpen: false,
       cartDropdownOpen: false,
-      activeDropdown: null,
       activeMobileDropdown: null,
       cartDropdownStyle: {},
       navItems: [
@@ -458,18 +454,18 @@ export default {
           icon: 'i-heroicons-beaker',
           menu: [
             {
-              title: 'داروهای بدون نسخه',
-              route: '/medications/otc',
+              label: 'داروهای بدون نسخه',
+              to: '/medications/otc',
               icon: 'i-heroicons-shopping-bag',
             },
             {
-              title: 'داروهای تجویزی',
-              route: '/medications/prescription',
+              label: 'داروهای تجویزی',
+              to: '/medications/prescription',
               icon: 'i-heroicons-document-text',
             },
             {
-              title: 'مکمل‌ها و ویتامین‌ها',
-              route: '/medications/supplements',
+              label: 'مکمل‌ها و ویتامین‌ها',
+              to: '/medications/supplements',
               icon: 'i-heroicons-cube',
             },
           ],
@@ -480,18 +476,18 @@ export default {
           icon: 'i-heroicons-sparkles',
           menu: [
             {
-              title: 'مقالات سلامت',
-              route: '/wellness/articles',
+              label: 'مقالات سلامت',
+              to: '/wellness/articles',
               icon: 'i-heroicons-newspaper',
             },
             {
-              title: 'راهنمای تغذیه',
-              route: '/wellness/nutrition',
+              label: 'راهنمای تغذیه',
+              to: '/wellness/nutrition',
               icon: 'i-heroicons-cake',
             },
             {
-              title: 'ورزش و تناسب اندام',
-              route: '/wellness/fitness',
+              label: 'ورزش و تناسب اندام',
+              to: '/wellness/fitness',
               icon: 'i-heroicons-bolt',
             },
           ],
@@ -532,6 +528,17 @@ export default {
           }, 3000)
         }
       },
+    },
+
+    'cartStore.isOpen': {
+      handler(isOpen) {
+        if (isOpen) {
+          this.$nextTick(() => {
+            this.updateCartDropdownPosition()
+          })
+        }
+      },
+      immediate: true,
     },
   },
 
@@ -583,26 +590,24 @@ export default {
 
     updateCartDropdownPosition() {
       if (this.$refs.cartButton) {
-        const buttonRect = this.$refs.cartButton.getBoundingClientRect()
-        this.cartDropdownStyle = {
-          top: `${buttonRect.bottom + 18}px`,
-          left: `${buttonRect.right - 192}px`, // 384px is w-96
+        const isMobile = window.innerWidth < 768
+
+        if (isMobile) {
+          // On mobile, center the dropdown horizontally and position below header
+          this.cartDropdownStyle = {
+            top: '80px', // Below the header
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }
+        } else {
+          // On desktop, position relative to cart button
+          const buttonRect = this.$refs.cartButton.getBoundingClientRect()
+          this.cartDropdownStyle = {
+            top: `${buttonRect.bottom + 18}px`,
+            left: `${buttonRect.right - 192}px`, // 384px is w-96 (half width)
+          }
         }
       }
-    },
-
-    openDropdown(title) {
-      this.activeDropdown = title
-    },
-
-    closeDropdown(title) {
-      if (this.activeDropdown === title) {
-        this.activeDropdown = null
-      }
-    },
-
-    toggleDropdown(title) {
-      this.activeDropdown = this.activeDropdown === title ? null : title
     },
 
     toggleMobileDropdown(title) {
@@ -614,6 +619,14 @@ export default {
       this.cartStore.removeItem(productId)
     },
 
+    incrementQuantity(productId) {
+      this.cartStore.incrementQuantity(productId)
+    },
+
+    decrementQuantity(productId) {
+      this.cartStore.decrementQuantity(productId)
+    },
+
     formatPrice(price) {
       return new Intl.NumberFormat('fa-IR').format(price)
     },
@@ -622,6 +635,7 @@ export default {
       const target = event.target
       const cartButton = this.$refs.cartButton
       const cartDropdown = this.$refs.cartDropdown
+
       // Handle cart dropdown
       if (this.cartStore.isOpen) {
         if (
@@ -631,14 +645,6 @@ export default {
           !cartDropdown.contains(target)
         ) {
           this.closeCartDropdown()
-        }
-      }
-
-      // Handle navigation dropdowns
-      if (this.activeDropdown) {
-        const isInsideDropdown = target.closest('.relative')
-        if (!isInsideDropdown) {
-          this.activeDropdown = null
         }
       }
     },
@@ -651,3 +657,23 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+:deep(button[role='menuitem']) {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+
+:deep(button[role='menuitem']:focus) {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+
+:deep(button[role='menuitem']:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+</style>
