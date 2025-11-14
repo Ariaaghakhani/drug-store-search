@@ -53,6 +53,10 @@
 button{
     cursor: pointer;
 }
+input, textarea, select {
+  font-size: 16px;
+}
+
 
 [dir='rtl'] .nuxt-loading-indicator {
   transform-origin: right !important;
