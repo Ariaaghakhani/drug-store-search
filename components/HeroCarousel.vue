@@ -105,33 +105,24 @@
         </button>
       </div>
 
-      <!-- Indicators/Dots with Progress -->
+      <!-- Indicators/Dots -->
       <div
         class="absolute bottom-4 sm:bottom-6 lg:bottom-[48px] left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20"
       >
         <button
           v-for="(slide, index) in slides"
           :key="`dot-${slide.id}`"
-          class="dot-button relative outline-none overflow-hidden rounded-full"
+          class="dot-button outline-none rounded-full transition-all"
           :aria-label="`برو به اسلاید ${index + 1}`"
           @click="goToSlide(index)"
         >
-          <!-- Background dot -->
           <span
             class="block rounded-full transition-all"
             :class="
               index === currentIndex
-                ? 'bg-white/30 w-5 sm:w-6 lg:w-8 h-1.5 sm:h-2 lg:h-2.5'
-                : 'bg-white/40 hover:bg-white/75 w-1.5 sm:w-2 lg:w-2.5 h-1.5 sm:h-2 lg:h-2.5'
+                ? 'bg-white/75 w-5 sm:w-6 lg:w-8 h-1.5 sm:h-2 lg:h-2.5'
+                : 'bg-white/40 hover:bg-white/60 w-1.5 sm:w-2 lg:w-2.5 h-1.5 sm:h-2 lg:h-2.5'
             "
-          />
-
-          <!-- Progress fill - only render for active dot -->
-          <span
-            v-if="index === currentIndex"
-            :key="`progress-${progressKey}`"
-            class="progress-fill"
-            :class="{ 'is-paused': isPaused }"
           />
         </button>
       </div>
@@ -152,7 +143,6 @@ export default {
       touchEndX: 0,
       touchStartTime: 0,
       autoplayDuration: 8000,
-      progressKey: 0,
 
       slides: [
         {
@@ -213,18 +203,15 @@ export default {
   methods: {
     nextSlide() {
       this.currentIndex = (this.currentIndex + 1) % this.slides.length
-      this.progressKey++
     },
 
     prevSlide() {
       this.currentIndex =
         this.currentIndex === 0 ? this.slides.length - 1 : this.currentIndex - 1
-      this.progressKey++
     },
 
     goToSlide(index) {
       this.currentIndex = index
-      this.progressKey++
     },
 
     startAutoplay() {
@@ -279,11 +266,12 @@ export default {
       const swipeTime = Date.now() - this.touchStartTime
 
       // Only trigger if it's a quick swipe with enough distance
+      // In RTL: swipe right (diff < 0) = previous, swipe left (diff > 0) = next
       if (Math.abs(diff) > swipeThreshold && swipeTime < timeThreshold) {
         if (diff > 0) {
-          this.nextSlide()
-        } else {
           this.prevSlide()
+        } else {
+          this.nextSlide()
         }
       }
 
@@ -330,33 +318,5 @@ button:focus,
 button:focus-visible {
   outline: none !important;
   box-shadow: none !important;
-}
-
-.dot-button {
-  position: relative;
-}
-
-.progress-fill {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 0;
-  background: rgba(255, 255, 255, 0.75);
-  border-radius: 9999px;
-  animation: progress-fill-animation 8s linear forwards;
-}
-
-.progress-fill.is-paused {
-  animation-play-state: paused;
-}
-
-@keyframes progress-fill-animation {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
 }
 </style>
