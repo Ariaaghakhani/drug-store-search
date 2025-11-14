@@ -1,24 +1,9 @@
 <template>
   <section class="py-16 lg:py-24">
     <div class="flex gap-12 lg:gap-16 content-start flex-wrap md:flex-nowrap">
-      <!-- Image/Illustration -->
-      <div
-        class="aspect-square hidden md:flex md:w-2/5 rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 items-center justify-center relative overflow-hidden shadow-2xl"
-      >
-        <!-- Decorative elements -->
-        <div class="absolute inset-0 bg-white/5 backdrop-blur-3xl" />
-        <div
-          class="absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"
-        />
-        <div
-          class="absolute bottom-10 left-10 w-40 h-40 bg-brand-400/20 rounded-full blur-3xl"
-        />
-
-        <!-- Icon -->
-        <UIcon
-          class="w-48 h-48 text-brand-500 opacity-30 relative z-10"
-          name="i-heroicons-building-storefront"
-        />
+      <!-- Carousel replacing the static illustration -->
+      <div class="hidden md:flex md:w-2/5">
+        <HeroCarousel />
       </div>
 
       <!-- Text Content -->
