@@ -49,10 +49,9 @@
         <div class="relative order-1 md:order-2">
           <textarea
             v-model="searchQuery"
-            class="w-full px-6 py-5 pe-16 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all shadow-lg hover:shadow-xl"
+            class="w-full h-full min-h-24 max-h-40 px-6 py-5 pe-20 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all"
             placeholder="نام دارو یا محصول مورد نظر خود را جستجو کنید..."
             rows="1"
-            style="min-height: 80px; max-height: 200px"
             @input="autoResize"
             @keydown.enter.prevent="handleSearch"
           />
@@ -61,10 +60,13 @@
               '!bg-brand-100 !cursor-not-allowed': !searchQuery.trim(),
             }"
             :disabled="!searchQuery.trim()"
-            class="w-12 h-12 absolute left-4 bottom-4 p-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg"
+            class="w-12 h-12 absolute left-5 bottom-1/2 translate-y-1/2 flex items-center justify-center bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors"
             @click="handleSearch"
           >
-            <UIcon class="w-6 h-6" name="i-heroicons-magnifying-glass" />
+            <UIcon
+              class="w-6 h-6 flex-shrink-0"
+              name="i-heroicons-magnifying-glass"
+            />
           </button>
         </div>
 
@@ -156,3 +158,9 @@ export default {
   },
 }
 </script>
+
+<style>
+textarea::placeholder {
+  display: flex;
+}
+</style>
