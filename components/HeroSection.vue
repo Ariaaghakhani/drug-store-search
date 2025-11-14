@@ -49,10 +49,14 @@
         <div class="relative order-1 md:order-2">
           <textarea
             v-model="searchQuery"
-            class="w-full h-full min-h-24 max-h-40 px-6 py-5 pe-20 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all"
+            class="w-full h-full min-h-24 max-h-24 px-6 py-5 pe-20 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all leading-relaxed"
             placeholder="نام دارو یا محصول مورد نظر خود را جستجو کنید..."
             rows="1"
-            @input="autoResize"
+            style="
+              padding-top: calc((96px - 1.5em) / 2);
+              padding-bottom: calc((96px - 1.5em) / 2);
+            "
+            @change="autoResize"
             @keydown.enter.prevent="handleSearch"
           />
           <button
@@ -152,15 +156,27 @@ export default {
 
     autoResize(event) {
       const textarea = event.target
+
+      // Always maintain centered padding regardless of content
+      textarea.style.paddingTop = 'calc((96px - 1.5em) / 2)'
+      textarea.style.paddingBottom = 'calc((96px - 1.5em) / 2)'
+
       textarea.style.height = 'auto'
-      textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px'
+      const newHeight = Math.min(textarea.scrollHeight, 200)
+      textarea.style.height = newHeight + 'px'
+
+      // Recalculate padding if height changes
+      if (newHeight > 96) {
+        textarea.style.paddingTop = '1.25rem'
+        textarea.style.paddingBottom = '1.25rem'
+      }
     },
   },
 }
 </script>
 
-<style>
+<style scoped>
 textarea::placeholder {
-  display: flex;
+  line-height: 1.5;
 }
 </style>
