@@ -82,32 +82,32 @@
       >
         <!-- Next Button (Left side in RTL) -->
         <button
-          class="pointer-events-auto w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/40 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/75 dark:hover:bg-gray-700 transition-all hover:scale-110 flex items-center justify-center outline-none"
-          aria-label="اسلاید بعدی"
+          class="pointer-events-auto w-8 h-8 rounded-full bg-white/40 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/75 dark:hover:bg-gray-700 transition-all hover:scale-110 flex items-center justify-center outline-none"
+          aria-label="اسلاید قبلی"
           @click="prevSlide"
         >
           <UIcon
             name="i-heroicons-chevron-right"
-            class="w-5 h-5 lg:w-6 lg:h-6 text-gray-700 dark:text-gray-200"
+            class="w-4 h-4 text-gray-700 dark:text-gray-200"
           />
         </button>
 
         <!-- Previous Button (Right side in RTL) -->
         <button
-          class="pointer-events-auto w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/40 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/75 dark:hover:bg-gray-700 transition-all hover:scale-110 flex items-center justify-center outline-none"
-          aria-label="اسلاید قبلی"
+          class="pointer-events-auto w-8 h-8 rounded-full bg-white/40 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/75 dark:hover:bg-gray-700 transition-all hover:scale-110 flex items-center justify-center outline-none"
+          aria-label="اسلاید بعدی"
           @click="nextSlide"
         >
           <UIcon
             name="i-heroicons-chevron-left"
-            class="w-5 h-5 lg:w-6 lg:h-6 text-gray-700 dark:text-gray-200"
+            class="w-4 h-4 text-gray-700 dark:text-gray-200"
           />
         </button>
       </div>
 
       <!-- Indicators/Dots -->
       <div
-        class="absolute bottom-4 sm:bottom-6 lg:bottom-[48px] left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20"
+        class="absolute bottom-4 md:bottom-[42px] left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20"
       >
         <button
           v-for="(slide, index) in slides"
