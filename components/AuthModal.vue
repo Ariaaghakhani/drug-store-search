@@ -53,6 +53,7 @@
               placeholder="09xxxxxxxxx"
               maxlength="11"
               dir="ltr"
+              class="w-full"
               :ui="{ rounded: 'rounded-lg' }"
               @keyup.enter="handlePhoneSubmit"
             />
@@ -74,14 +75,6 @@
           >
             ادامه
           </UButton>
-
-          <p class="text-xs text-center text-gray-600 dark:text-gray-400">
-            با ادامه، شما
-            <a href="#" class="text-teal-600 dark:text-teal-400 hover:underline"
-              >قوانین و شرایط</a
-            >
-            را می‌پذیرید.
-          </p>
         </div>
 
         <!-- Step 2: OTP Input (for existing users) -->
@@ -182,6 +175,7 @@
                 v-model="formData.firstName"
                 size="lg"
                 placeholder="نام"
+                class="w-full"
                 :ui="{ rounded: 'rounded-lg' }"
               />
             </div>
@@ -195,6 +189,7 @@
                 v-model="formData.lastName"
                 size="lg"
                 placeholder="نام خانوادگی"
+                class="w-full"
                 :ui="{ rounded: 'rounded-lg' }"
               />
             </div>
@@ -212,6 +207,7 @@
               size="lg"
               placeholder="example@email.com"
               dir="ltr"
+              class="w-full"
               :ui="{ rounded: 'rounded-lg' }"
             />
           </div>
