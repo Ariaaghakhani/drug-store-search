@@ -1,6 +1,19 @@
 <template>
-  <UModal v-model="isOpen" :ui="{ width: 'sm:max-w-md' }">
-    <UCard>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        v-if="isOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        @click.self="closeModal"
+      >
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+        <!-- Modal Content -->
+        <UCard
+          class="relative w-full max-w-md mx-auto"
+          :ui="{ body: { padding: 'p-6 sm:p-6' } }"
+        >
       <template #header>
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold text-gray-900 dark:text-white">
@@ -246,8 +259,10 @@
           </button>
         </div>
       </div>
-    </UCard>
-  </UModal>
+        </UCard>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script>
@@ -555,5 +570,26 @@ input[type='tel']::-webkit-inner-spin-button {
 }
 input[type='tel'] {
   -moz-appearance: textfield;
+}
+
+/* Modal transitions */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active .relative,
+.modal-leave-active .relative {
+  transition: transform 0.3s ease;
+}
+
+.modal-enter-from .relative,
+.modal-leave-to .relative {
+  transform: scale(0.95);
 }
 </style>
