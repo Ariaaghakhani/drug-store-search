@@ -105,9 +105,9 @@
             </span>
           </button>
 
-          <!-- Dark Mode Toggle -->
+          <!-- Dark Mode Toggle - Desktop only -->
           <button
-            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
+            class="hidden md:flex w-10 h-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
             aria-label="تغییر تم"
             @click="toggleDarkMode"
           >
@@ -122,7 +122,8 @@
           <!-- User Profile -->
           <button
             class="hidden sm:flex w-10 h-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
-            aria-label="پروفایل کاربر"
+            aria-label="پروفایل کاربری"
+            @click="goToPanel"
           >
             <UIcon name="i-heroicons-user" class="w-5 h-5" />
           </button>
@@ -307,7 +308,7 @@
     >
       <div
         v-if="mobileMenuOpen"
-        class="fixed inset-0 z-50 md:hidden w-full bg-white"
+        class="fixed inset-0 z-50 md:hidden w-full"
         @click="closeMobileMenu"
       >
         <!-- Backdrop -->
@@ -323,7 +324,7 @@
         >
           <!-- Menu Header -->
           <div
-            class="flex bg-white items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800"
+            class="flex bg-white dark:bg-gray-900 items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800"
           >
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 flex items-center justify-center">
@@ -356,7 +357,7 @@
           </div>
 
           <!-- Menu Items -->
-          <nav class="p-4 bg-white">
+          <nav class="p-4 bg-white dark:bg-gray-900">
             <template v-for="item in navItems" :key="item.route || item.title">
               <!-- Regular Menu Item -->
               <NuxtLink
@@ -419,6 +420,34 @@
                 </Transition>
               </div>
             </template>
+
+            <!-- Divider -->
+            <div class="my-4 border-t border-gray-200 dark:border-gray-700" />
+
+            <!-- User Profile - Mobile only -->
+            <button
+              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all w-full text-right"
+              @click="goToPanel"
+            >
+              <UIcon name="i-heroicons-user" class="w-5 h-5" />
+              <span class="font-semibold">پروفایل کاربری</span>
+            </button>
+
+            <!-- Dark Mode Toggle - Mobile only -->
+            <button
+              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+              @click="toggleDarkMode"
+            >
+              <UIcon
+                :name="
+                  colorMode === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
+                "
+                class="w-5 h-5"
+              />
+              <span class="font-semibold">
+                {{ colorMode === 'dark' ? 'حالت روز' : 'حالت شب' }}
+              </span>
+            </button>
 
             <div class="px-4 py-3 w-full">
               <UButton to="/supports" class="p-4 text-sm" icon="mdi-headset">
@@ -555,6 +584,23 @@ export default {
   },
 
   methods: {
+    goToPanel() {
+      const { isAuthenticated } = useAuth()
+
+      if (isAuthenticated()) {
+        // User is authenticated, navigate to panel
+        navigateTo('/panel')
+      } else {
+        // User not authenticated, redirect to login with return URL
+        navigateTo('/login?redirect=/panel')
+      }
+
+      // Close mobile menu if open
+      if (this.mobileMenuOpen) {
+        this.closeMobileMenu()
+      }
+    },
+
     toggleDarkMode() {
       const colorMode = useColorMode()
       colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
