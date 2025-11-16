@@ -2,7 +2,7 @@
   <div dir="rtl" class="font-dana">
     <Header />
     <main class="min-h-screen">
-      <slot />
+      <NuxtPage />
     </main>
     <Footer />
   </div>
