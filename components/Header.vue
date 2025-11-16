@@ -425,7 +425,7 @@
 
             <!-- User Profile - Mobile only -->
             <NuxtLink
-              to="/account"
+              to="/panel"
               class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
               @click="closeMobileMenu"
             >
