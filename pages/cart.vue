@@ -123,14 +123,16 @@
                 </div>
 
                 <!-- Remove Button -->
-                <UButton
-                  color="red"
-                  variant="ghost"
-                  icon="i-heroicons-trash"
-                  size="sm"
-                  square
-                  @click="removeItem(item.id)"
-                />
+                <div class="self-start">
+                  <UButton
+                    color="red"
+                    variant="ghost"
+                    icon="i-heroicons-trash"
+                    size="sm"
+                    square
+                    @click="removeItem(item.id)"
+                  />
+                </div>
               </div>
 
               <!-- Quantity and Price Row -->
