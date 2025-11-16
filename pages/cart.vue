@@ -40,11 +40,11 @@
             <div class="flex gap-4">
               <!-- Product Image -->
               <div
-                class="w-24 h-24 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"
+                class="w-12 h-12 md:w-24 md:h-24 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"
               >
                 <UIcon
                   name="i-heroicons-cube"
-                  class="w-12 h-12 text-gray-300"
+                  class="w-6 h-6 md:w-12 md:h-12 text-gray-300"
                 />
               </div>
 
@@ -64,25 +64,23 @@
                   <div class="flex items-center gap-2">
                     <UButton
                       size="sm"
-                      color="white"
-                      icon="i-heroicons-minus"
+                      icon="i-heroicons-plus"
                       square
-                      @click="decreaseQuantity(item.id)"
+                      @click="increaseQuantity(item.id)"
                     />
                     <span class="w-12 text-center font-bold">{{
                       item.quantity
                     }}</span>
                     <UButton
                       size="sm"
-                      color="white"
-                      icon="i-heroicons-plus"
+                      icon="i-heroicons-minus"
                       square
-                      @click="increaseQuantity(item.id)"
+                      @click="decreaseQuantity(item.id)"
                     />
                   </div>
 
                   <!-- Price -->
-                  <div class="text-lg font-black text-brand-500">
+                  <div class="text-lg font-black text-brand-400">
                     {{ (item.price * item.quantity).toLocaleString('fa-IR') }}
                     تومان
                   </div>
@@ -91,7 +89,6 @@
 
               <!-- Remove Button -->
               <UButton
-                color="red"
                 variant="ghost"
                 icon="i-heroicons-trash"
                 square
@@ -141,7 +138,7 @@
                 <span class="font-bold text-gray-900 dark:text-white"
                   >جمع کل:</span
                 >
-                <span class="font-black text-brand-500 text-2xl">
+                <span class="font-black text-brand-300 text-2xl">
                   {{ cartStore.total.toLocaleString('fa-IR') }} تومان
                 </span>
               </div>

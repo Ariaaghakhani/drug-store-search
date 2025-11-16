@@ -122,7 +122,7 @@
           <!-- User Profile -->
           <button
             class="hidden sm:flex w-10 h-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
-            aria-label="پروفایل کاربر"
+            aria-label="پروفایل کاربری"
           >
             <UIcon name="i-heroicons-user" class="w-5 h-5" />
           </button>
@@ -421,7 +421,7 @@
             </template>
 
             <!-- Divider -->
-            <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
+            <div class="my-4 border-t border-gray-200 dark:border-gray-700" />
 
             <!-- User Profile - Mobile only -->
             <NuxtLink
@@ -430,7 +430,7 @@
               @click="closeMobileMenu"
             >
               <UIcon name="i-heroicons-user" class="w-5 h-5" />
-              <span class="font-semibold">پروفایل کاربر</span>
+              <span class="font-semibold">پروفایل کاربری</span>
             </NuxtLink>
 
             <!-- Dark Mode Toggle - Mobile only -->
