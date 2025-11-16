@@ -437,15 +437,28 @@ export default {
 
         await new Promise((resolve) => setTimeout(resolve, 1500))
 
+        // Set authentication
+        const { login } = useAuth()
+        login('token')
+
         console.log('✅ Success:', {
           phoneNumber: this.phoneNumber,
           otp: this.otpCode,
           isNewUser: this.isNewUser,
         })
 
-        alert(`${this.isNewUser ? 'ثبت‌نام' : 'ورود'} موفقیت‌آمیز بود!`)
+        // Show success message
+        const toast = useToast()
+        toast.add({
+          title: `${this.isNewUser ? 'ثبت‌نام' : 'ورود'} موفقیت‌آمیز بود!`,
+          icon: 'i-heroicons-check-circle',
+          color: 'green',
+        })
 
-        // Redirect: this.$router.push('/dashboard')
+        // Redirect to intended page or default
+        const route = useRoute()
+        const redirectTo = route.query.redirect || '/panel'
+        this.$router.push(redirectTo)
       } catch {
         this.otpError = 'کد تایید نادرست است.'
       } finally {

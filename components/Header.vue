@@ -120,13 +120,13 @@
           </button>
 
           <!-- User Profile -->
-          <NuxtLink
-            to="/panel"
+          <button
             class="hidden sm:flex w-10 h-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
             aria-label="پروفایل کاربری"
+            @click="goToPanel"
           >
             <UIcon name="i-heroicons-user" class="w-5 h-5" />
-          </NuxtLink>
+          </button>
 
           <UButton
             class="p-4 hidden md:flex"
@@ -425,14 +425,13 @@
             <div class="my-4 border-t border-gray-200 dark:border-gray-700" />
 
             <!-- User Profile - Mobile only -->
-            <NuxtLink
-              to="/panel"
-              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
-              @click="closeMobileMenu"
+            <button
+              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all w-full text-right"
+              @click="goToPanel"
             >
               <UIcon name="i-heroicons-user" class="w-5 h-5" />
               <span class="font-semibold">پروفایل کاربری</span>
-            </NuxtLink>
+            </button>
 
             <!-- Dark Mode Toggle - Mobile only -->
             <button
@@ -585,6 +584,23 @@ export default {
   },
 
   methods: {
+    goToPanel() {
+      const { isAuthenticated } = useAuth()
+
+      if (isAuthenticated()) {
+        // User is authenticated, navigate to panel
+        navigateTo('/panel')
+      } else {
+        // User not authenticated, redirect to login with return URL
+        navigateTo('/login?redirect=/panel')
+      }
+
+      // Close mobile menu if open
+      if (this.mobileMenuOpen) {
+        this.closeMobileMenu()
+      }
+    },
+
     toggleDarkMode() {
       const colorMode = useColorMode()
       colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'

@@ -217,6 +217,7 @@
                 size="xl"
                 color="primary"
                 icon="i-heroicons-shopping-bag"
+                @click="handleCheckout"
               >
                 تکمیل خرید
               </UButton>
@@ -244,6 +245,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Auth Modal -->
+    <AuthModal v-model="showAuthModal" @authenticated="handleAuthenticated" />
   </UContainer>
 </template>
 
@@ -260,6 +264,12 @@ export default defineComponent({
     }
   },
 
+  data() {
+    return {
+      showAuthModal: false,
+    }
+  },
+
   computed: {
     cartStore() {
       return useCartStore()
@@ -271,6 +281,34 @@ export default defineComponent({
   },
 
   methods: {
+    handleCheckout() {
+      const { isAuthenticated } = useAuth()
+
+      if (!isAuthenticated()) {
+        // Show auth modal for cart page
+        this.showAuthModal = true
+      } else {
+        // Proceed with checkout
+        this.proceedToCheckout()
+      }
+    },
+
+    handleAuthenticated() {
+      // User just authenticated, proceed with checkout
+      this.proceedToCheckout()
+    },
+
+    proceedToCheckout() {
+      const toast = useToast()
+      toast.add({
+        title: 'در حال انتقال به صفحه پرداخت...',
+        icon: 'i-heroicons-shopping-bag',
+        color: 'green',
+      })
+      // TODO: Navigate to checkout page
+      // navigateTo('/checkout')
+    },
+
     increaseQuantity(productId) {
       const item = this.cartStore.items.find((i) => i.id === productId)
       if (item) {
