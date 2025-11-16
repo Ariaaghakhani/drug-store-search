@@ -37,7 +37,8 @@
         <!-- Items List -->
         <div class="lg:col-span-2 space-y-4">
           <UCard v-for="item in cartStore.items" :key="item.id">
-            <div class="flex gap-4">
+            <!-- Desktop Layout -->
+            <div class="hidden md:flex gap-4">
               <!-- Product Image -->
               <div
                 class="w-12 h-12 md:w-24 md:h-24 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"
@@ -94,6 +95,75 @@
                 square
                 @click="removeItem(item.id)"
               />
+            </div>
+
+            <!-- Mobile Layout -->
+            <div class="md:hidden">
+              <div class="flex gap-3 mb-4">
+                <!-- Product Image -->
+                <div
+                  class="w-20 h-20 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"
+                >
+                  <UIcon
+                    name="i-heroicons-cube"
+                    class="w-10 h-10 text-gray-300"
+                  />
+                </div>
+
+                <!-- Product Info -->
+                <div class="flex-1 min-w-0">
+                  <h3
+                    class="font-bold text-base text-gray-900 dark:text-white mb-1"
+                  >
+                    {{ item.name }}
+                  </h3>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ item.category }}
+                  </p>
+                </div>
+
+                <!-- Remove Button -->
+                <UButton
+                  color="red"
+                  variant="ghost"
+                  icon="i-heroicons-trash"
+                  size="sm"
+                  square
+                  @click="removeItem(item.id)"
+                />
+              </div>
+
+              <!-- Quantity and Price Row -->
+              <div
+                class="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700"
+              >
+                <!-- Quantity Controls -->
+                <div class="flex items-center gap-2">
+                  <UButton
+                    size="sm"
+                    color="white"
+                    icon="i-heroicons-minus"
+                    square
+                    @click="decreaseQuantity(item.id)"
+                  />
+                  <span class="w-10 text-center font-bold text-sm">{{
+                    item.quantity
+                  }}</span>
+                  <UButton
+                    size="sm"
+                    color="white"
+                    icon="i-heroicons-plus"
+                    square
+                    @click="increaseQuantity(item.id)"
+                  />
+                </div>
+
+                <!-- Price -->
+                <div class="text-base font-black text-brand-500">
+                  {{ (item.price * item.quantity).toLocaleString('fa-IR') }}
+                  تومان
+                </div>
+              </div>
             </div>
           </UCard>
         </div>
