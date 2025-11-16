@@ -245,10 +245,10 @@
         </div>
       </div>
     </div>
-
-    <!-- Auth Modal -->
-    <AuthModal v-model="showAuthModal" @authenticated="handleAuthenticated" />
   </UContainer>
+
+  <!-- Auth Modal -->
+  <AuthModal v-model="showAuthModal" @authenticated="handleAuthenticated" />
 </template>
 
 <script>
