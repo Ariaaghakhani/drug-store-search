@@ -307,7 +307,7 @@
     >
       <div
         v-if="mobileMenuOpen"
-        class="fixed inset-0 z-50 md:hidden w-full bg-white"
+        class="fixed inset-0 z-50 md:hidden w-full"
         @click="closeMobileMenu"
       >
         <!-- Backdrop -->
@@ -323,7 +323,7 @@
         >
           <!-- Menu Header -->
           <div
-            class="flex bg-white items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800"
+            class="flex bg-white dark:bg-gray-900 items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800"
           >
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 flex items-center justify-center">
@@ -356,7 +356,7 @@
           </div>
 
           <!-- Menu Items -->
-          <nav class="p-4 bg-white">
+          <nav class="p-4 bg-white dark:bg-gray-900">
             <template v-for="item in navItems" :key="item.route || item.title">
               <!-- Regular Menu Item -->
               <NuxtLink
