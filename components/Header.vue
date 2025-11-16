@@ -105,9 +105,9 @@
             </span>
           </button>
 
-          <!-- Dark Mode Toggle -->
+          <!-- Dark Mode Toggle - Desktop only -->
           <button
-            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
+            class="hidden md:flex w-10 h-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 transition-all"
             aria-label="تغییر تم"
             @click="toggleDarkMode"
           >
@@ -419,6 +419,22 @@
                 </Transition>
               </div>
             </template>
+
+            <!-- Dark Mode Toggle - Mobile only -->
+            <button
+              class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
+              @click="toggleDarkMode"
+            >
+              <UIcon
+                :name="
+                  colorMode === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
+                "
+                class="w-5 h-5"
+              />
+              <span class="font-semibold">
+                {{ colorMode === 'dark' ? 'حالت روز' : 'حالت شب' }}
+              </span>
+            </button>
 
             <div class="px-4 py-3 w-full">
               <UButton to="/supports" class="p-4 text-sm" icon="mdi-headset">
