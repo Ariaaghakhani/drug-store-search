@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-teal-50 to-cyan-100 dark:from-slate-900 dark:to-slate-800"
+    class="min-h-screen select-none flex items-center justify-center p-4 bg-gradient-to-br from-teal-50 to-cyan-100 dark:from-slate-900 dark:to-slate-800"
   >
     <div class="w-full max-w-4xl flex items-center justify-center">
       <div
@@ -304,6 +304,11 @@
 <script>
 export default {
   name: 'LoginPage',
+  setup() {
+    definePageMeta({
+      layout: 'auth',
+    })
+  },
   data() {
     return {
       currentStep: 'phone',
