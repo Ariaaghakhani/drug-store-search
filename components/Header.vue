@@ -420,6 +420,9 @@
               </div>
             </template>
 
+            <!-- Divider -->
+            <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
+
             <!-- Dark Mode Toggle - Mobile only -->
             <button
               class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-900 dark:text-gray-100 hover:bg-teal-50 dark:hover:bg-teal-950 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
