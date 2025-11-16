@@ -5,7 +5,7 @@
     <!-- Section Header -->
     <div class="text-center mb-12">
       <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white">
-        داروهای <span class="text-brand-500">پرتکرار</span>
+        داروهای <span class="text-brand-400">پرتکرار</span>
       </h2>
       <p
         class="text-gray-600 dark:text-gray-400 mt-3 text-lg max-w-3xl mx-auto"

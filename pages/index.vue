@@ -13,11 +13,6 @@
       <CategoriesCarousel />
     </UContainer>
 
-    <!-- Stats Section - Contained -->
-    <UContainer>
-      <StatsSection />
-    </UContainer>
-
     <!-- Featured Products - Contained -->
     <UContainer>
       <FeaturedProducts />
