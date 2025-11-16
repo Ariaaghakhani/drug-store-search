@@ -125,7 +125,6 @@
                 <!-- Remove Button -->
                 <div class="self-start">
                   <UButton
-                    color="red"
                     variant="ghost"
                     icon="i-heroicons-trash"
                     size="sm"
@@ -143,7 +142,6 @@
                 <div class="flex items-center gap-2">
                   <UButton
                     size="sm"
-                    color="white"
                     icon="i-heroicons-minus"
                     square
                     @click="decreaseQuantity(item.id)"
@@ -153,7 +151,6 @@
                   }}</span>
                   <UButton
                     size="sm"
-                    color="white"
                     icon="i-heroicons-plus"
                     square
                     @click="increaseQuantity(item.id)"
@@ -250,7 +247,7 @@
   </UContainer>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import { useCartStore } from '~/stores/cart'
 
@@ -268,27 +265,27 @@ export default defineComponent({
       return useCartStore()
     },
 
-    shippingCost(): number {
+    shippingCost() {
       return this.cartStore.subtotal > 500000 ? 0 : 59900
     },
   },
 
   methods: {
-    increaseQuantity(productId: string) {
+    increaseQuantity(productId) {
       const item = this.cartStore.items.find((i) => i.id === productId)
       if (item) {
         this.cartStore.updateQuantity(productId, item.quantity + 1)
       }
     },
 
-    decreaseQuantity(productId: string) {
+    decreaseQuantity(productId) {
       const item = this.cartStore.items.find((i) => i.id === productId)
       if (item && item.quantity > 1) {
         this.cartStore.updateQuantity(productId, item.quantity - 1)
       }
     },
 
-    removeItem(productId: string) {
+    removeItem(productId) {
       this.cartStore.removeItem(productId)
       const toast = useToast()
       toast.add({
