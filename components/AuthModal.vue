@@ -1,19 +1,18 @@
 <template>
-  <Teleport to="body">
-    <Transition name="modal">
-      <div
-        v-if="isOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        @click.self="closeModal"
-      >
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+  <Transition name="modal">
+    <div
+      v-if="modelValue"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      @click.self="closeModal"
+    >
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
 
-        <!-- Modal Content -->
-        <UCard
-          class="relative w-full max-w-md mx-auto"
-          :ui="{ body: { padding: 'p-6 sm:p-6' } }"
-        >
+      <!-- Modal Content -->
+      <UCard
+        class="relative w-full max-w-md mx-auto"
+        :ui="{ body: { padding: 'p-6 sm:p-6' } }"
+      >
       <template #header>
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold text-gray-900 dark:text-white">
@@ -259,10 +258,9 @@
           </button>
         </div>
       </div>
-        </UCard>
-      </div>
-    </Transition>
-  </Teleport>
+      </UCard>
+    </div>
+  </Transition>
 </template>
 
 <script>
@@ -301,14 +299,6 @@ export default {
     }
   },
   computed: {
-    isOpen: {
-      get() {
-        return this.modelValue
-      },
-      set(value) {
-        this.$emit('update:modelValue', value)
-      },
-    },
     isValidPhone() {
       return /^09\d{9}$/.test(this.phoneNumber)
     },
@@ -331,7 +321,7 @@ export default {
   },
   methods: {
     closeModal() {
-      this.isOpen = false
+      this.$emit('update:modelValue', false)
       this.resetForm()
     },
 

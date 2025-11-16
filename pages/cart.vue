@@ -256,7 +256,7 @@
       </div>
     </UContainer>
     <!-- Auth Modal -->
-    <AuthModal v-if="showAuthModal" @authenticated="handleAuthenticated" />
+    <AuthModal v-model="showAuthModal" @authenticated="handleAuthenticated" />
   </div>
 </template>
 
