@@ -6,7 +6,10 @@
       @click.self="closeModal"
     >
       <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+      <div
+        class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        @click="closeModal"
+      ></div>
 
       <!-- Modal Content -->
       <UCard
