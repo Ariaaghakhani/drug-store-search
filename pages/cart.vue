@@ -326,7 +326,7 @@ export default defineNuxtComponent({
 
     decreaseQuantity(productId) {
       const item = this.cartStore.items.find((i) => i.id === productId)
-      if (item && item.quantity > 1) {
+      if (item && item.quantity > 0) {
         this.cartStore.updateQuantity(productId, item.quantity - 1)
       }
     },
