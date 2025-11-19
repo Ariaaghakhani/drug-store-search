@@ -194,7 +194,10 @@
                     <span class="text-gray-600 dark:text-gray-400"
                       >هزینه ارسال:</span
                     >
-                    <span class="font-bold">
+                    <span
+                      class="font-black"
+                      :class="shippingCost > 0 ? '' : 'text-brand-300'"
+                    >
                       {{
                         shippingCost > 0
                           ? shippingCost.toLocaleString('fa-IR') + ' تومان'
@@ -323,7 +326,7 @@ export default defineNuxtComponent({
 
     decreaseQuantity(productId) {
       const item = this.cartStore.items.find((i) => i.id === productId)
-      if (item && item.quantity > 1) {
+      if (item && item.quantity > 0) {
         this.cartStore.updateQuantity(productId, item.quantity - 1)
       }
     },

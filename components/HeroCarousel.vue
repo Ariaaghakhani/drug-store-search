@@ -1,13 +1,13 @@
 <template>
   <div
-    class="relative w-full h-full"
+    class="relative w-full h-full overflow-hidden rounded-3xl"
     dir="rtl"
     @mouseenter="pauseAutoplay"
     @mouseleave="resumeAutoplay"
   >
     <!-- Carousel Container -->
     <div
-      class="relative w-full h-full min-h-[300px] overflow-hidden rounded-2xl lg:rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-700 dark:via-brand-800 dark:to-brand-900"
+      class="relative w-full h-full min-h-[300px] overflow-hidden rounded-3xl lg:rounded-3xl"
     >
       <!-- Slides Wrapper -->
       <div
@@ -21,27 +21,16 @@
         <div
           v-for="(slide, index) in slides"
           :key="slide.id"
-          class="flex-shrink-0 h-full relative"
+          class="flex-shrink-0 h-full relative rounded-3xl overflow-hidden"
           style="width: 100%"
           :class="{
             'opacity-100': index === currentIndex,
             'opacity-0': index !== currentIndex,
           }"
         >
-          <!--          Decorative Background Elements-->
-          <div class="absolute inset-0 hidden md:block">
-            <div class="absolute inset-0 bg-white/5 backdrop-blur-3xl" />
-            <div
-              class="absolute top-10 right-10 w-20 h-20 lg:w-32 lg:h-32 bg-white/10 rounded-full blur-2xl"
-            />
-            <div
-              class="absolute bottom-10 left-10 w-24 h-24 lg:w-40 lg:h-40 bg-brand-400/20 rounded-full blur-3xl"
-            />
-          </div>
-
           <!-- Slide Content -->
           <div
-            class="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 text-center"
+            class="relative z-[5] h-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 text-center"
           >
             <!-- Icon -->
             <UIcon
