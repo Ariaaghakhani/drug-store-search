@@ -194,7 +194,10 @@
                     <span class="text-gray-600 dark:text-gray-400"
                       >هزینه ارسال:</span
                     >
-                    <span class="font-bold">
+                    <span
+                      class="font-black"
+                      :class="shippingCost > 0 ? '' : 'text-brand-300'"
+                    >
                       {{
                         shippingCost > 0
                           ? shippingCost.toLocaleString('fa-IR') + ' تومان'

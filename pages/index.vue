@@ -2,7 +2,7 @@
   <div>
     <!-- Hero Section - Full Width Background -->
     <div
-      class="bg-gradient-to-b from-brand-50 to-white dark:from-brand-200 dark:to-gray-900"
+      class="bg-gradient-to-b from-brand-50 to-white dark:from-brand-500 dark:to-gray-900"
     >
       <UContainer>
         <HeroSection />

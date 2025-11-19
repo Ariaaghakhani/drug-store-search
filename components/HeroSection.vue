@@ -3,7 +3,7 @@
     <div class="flex gap-12 lg:gap-16 content-start flex-wrap md:flex-nowrap">
       <!-- Image/Illustration -->
       <div
-        class="flex w-full md:w-2/5 rounded-3xl bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 dark:from-brand-900 dark:to-brand-800 justify-center relative shadow-2xl items-start"
+        class="flex w-full md:w-2/5 rounded-3xl bg-gradient-to-b from-brand-100 to-brand-300 dark:from-brand-900 dark:to-brand-800 justify-center relative shadow-2xl items-start overflow-hidden"
       >
         <HeroCarousel />
       </div>
