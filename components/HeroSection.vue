@@ -47,31 +47,23 @@
 
         <!-- Large ChatGPT-style Search Input -->
         <div class="relative order-1 md:order-2">
-          <textarea
+          <UTextarea
             v-model="searchQuery"
-            class="w-full h-full min-h-24 max-h-24 px-6 py-5 pe-20 text-sm md:text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none resize-none transition-all leading-relaxed"
+            :rows="1"
+            :padded="true"
+            autoresize
+            size="xl"
+            class="w-full [&_textarea]:min-h-24 [&_textarea]:max-h-24 [&_textarea]:py-3 [&_textarea]:pe-20 [&_textarea]:rounded-2xl [&_textarea]:dark:bg-gray-900/50"
             placeholder="نام دارو یا محصول مورد نظر خود را جستجو کنید..."
-            rows="1"
-            style="
-              padding-top: calc((96px - 1.5em) / 2);
-              padding-bottom: calc((96px - 1.5em) / 2);
-            "
-            @change="autoResize"
             @keydown.enter.prevent="handleSearch"
           />
-          <button
-            :class="{
-              '!bg-brand-100 !cursor-not-allowed': !searchQuery.trim(),
-            }"
-            :disabled="!searchQuery.trim()"
-            class="w-12 h-12 absolute left-5 bottom-1/2 translate-y-1/2 flex items-center justify-center bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors"
+          <UButton
+            icon="i-heroicons-magnifying-glass"
+            size="lg"
+            :disabled="!searchQuery"
+            class="absolute left-5 top-1/2 -translate-y-1/2"
             @click="handleSearch"
-          >
-            <UIcon
-              class="w-6 h-6 flex-shrink-0"
-              name="i-heroicons-magnifying-glass"
-            />
-          </button>
+          />
         </div>
 
         <!-- Features List -->
