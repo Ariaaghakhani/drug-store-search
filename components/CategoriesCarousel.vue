@@ -136,7 +136,7 @@ export default defineComponent({
         {
           id: 3,
           name: 'قلب و عروق',
-          icon: 'i-heroicons-heart-pulse',
+          icon: 'mdi:heart-pulse',
           slug: 'cardiovascular',
         },
         {
@@ -154,31 +154,31 @@ export default defineComponent({
         {
           id: 6,
           name: 'اعصاب و روان',
-          icon: 'i-heroicons-brain',
+          icon: 'mdi:brain',
           slug: 'mental-health',
         },
         {
           id: 7,
           name: 'تنفسی',
-          icon: 'i-heroicons-lungs',
+          icon: 'mdi:lungs',
           slug: 'respiratory',
         },
         {
           id: 8,
           name: 'کودکان',
-          icon: 'i-heroicons-baby',
+          icon: 'mdi:baby-face-outline',
           slug: 'children',
         },
         {
           id: 9,
           name: 'زنان',
-          icon: 'i-heroicons-venus',
+          icon: 'mdi:gender-female',
           slug: 'women',
         },
         {
           id: 10,
           name: 'دیابت',
-          icon: 'i-heroicons-drop',
+          icon: 'mdi:water',
           slug: 'diabetes',
         },
         {
