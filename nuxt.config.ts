@@ -13,6 +13,14 @@ export default defineNuxtConfig({
   css: ['~/assets/style/main.css'],
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
+    head: {
+      meta: [
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+        { name: 'apple-mobile-web-app-title', content: 'داروپلاس' },
+      ],
+      link: [{ rel: 'apple-touch-icon', href: '/pwa-512x512.png' }],
+    },
   },
   eslint: {},
   pwa: {
@@ -22,6 +30,8 @@ export default defineNuxtConfig({
       short_name: 'داروپلاس',
       theme_color: '#2C7A7B',
       background_color: '#ffffff',
+      display: 'standalone',
+      start_url: '/',
       icons: [
         {
           src: '/seo/pwa-192x192.png',
