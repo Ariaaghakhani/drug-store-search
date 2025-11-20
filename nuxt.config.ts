@@ -19,7 +19,7 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
         { name: 'apple-mobile-web-app-title', content: 'داروپلاس' },
       ],
-      link: [{ rel: 'apple-touch-icon', href: '/pwa-512x512.png' }],
+      link: [{ rel: 'apple-touch-icon', href: '/seo/pwa-512x512.png' }],
     },
   },
   eslint: {},
