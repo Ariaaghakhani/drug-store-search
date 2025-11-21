@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     manifest: {
       name: 'دارو پلاس',
       short_name: 'داروپلاس',
+      description: 'خرید آنلاین دارو و محصولات بهداشتی',
       theme_color: '#2C7A7B',
       background_color: '#ffffff',
       display: 'standalone',

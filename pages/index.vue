@@ -30,30 +30,14 @@
   </div>
 </template>
 
-<script>
-export default defineNuxtComponent({
-  name: 'IndexPage',
-
-  head() {
-    return {
-      title: 'داروخانه آنلاین | سلامتی در درب منزل',
-      meta: [
-        {
-          name: 'description',
-          content:
-            'دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید. داروسازان مجرب ۲۴/۷ در خدمت شما',
-        },
-        {
-          property: 'og:title',
-          content: 'داروخانه آنلاین | سلامتی در درب منزل',
-        },
-        {
-          property: 'og:description',
-          content:
-            'دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید',
-        },
-      ],
-    }
-  },
+<script setup>
+// Use useSeoMeta instead of head() for better consistency
+useSeoMeta({
+  title: 'داروپلاس',
+  description:
+    'دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید. داروسازان مجرب ۲۴/۷ در خدمت شما',
+  ogTitle: 'داروخانه آنلاین | سلامتی در درب منزل',
+  ogDescription:
+    'دارو و محصولات بهداشتی خود را با تحویل ایمن در منزل دریافت کنید',
 })
 </script>
