@@ -1,4 +1,4 @@
-import createApi from '~/services/api/index.js'
+import createApi from '@/services/api/index.js'
 import { cachedToken } from '@/plugins/authentication.client'
 
 const apiPromisesCache = new Map()

@@ -5,4 +5,7 @@ export default (apiCaller) => ({
   signUp(config) {
     return apiCaller.post('/auth/signup', config)
   },
+  logout(config) {
+    return apiCaller.post('/auth/logout', config)
+  },
 })
