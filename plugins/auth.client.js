@@ -42,19 +42,17 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       }
     },
     async fetchUser({ fetchFromRead = true } = {}) {
-      await nuxtApp.$api.auth
-        .fetchTrader({ fetchFromRead })
-        .then((response) => {
-          this.setUser(response.data)
-        })
-        .catch((error) => {
-          const responseCode = error?.response?.status
-          if ([401, 403].includes(responseCode)) {
-            logoutAndResetAuthentication(nuxtApp, {
-              callLogout: true,
-            })
-          }
-        })
+      try {
+        const response = await nuxtApp.$api.auth.fetchUser({ fetchFromRead })
+        this.setUser(response.data)
+      } catch (error) {
+        const responseCode = error?.response?.status
+        if ([401, 403].includes(responseCode)) {
+          logoutAndResetAuthentication(nuxtApp, {
+            callLogout: true,
+          })
+        }
+      }
     },
     reset() {
       this.setToken(null)

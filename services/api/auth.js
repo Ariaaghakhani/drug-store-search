@@ -5,6 +5,9 @@ export default (apiCaller) => ({
   signUp(config) {
     return apiCaller.post('/auth/signup', config)
   },
+  fetchUser(config) {
+    return apiCaller.get('/user/', config)
+  },
   logout(config) {
     return apiCaller.post('/auth/logout', config)
   },
