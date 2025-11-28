@@ -1,5 +1,5 @@
 import { reactive, ref, readonly } from 'vue'
-import { useRoute, navigateTo } from '#app'
+import { navigateTo } from '#app'
 import { logoutAndResetAuthentication } from '~/utils/auth.js'
 
 export const tokenLocalStorageKey = 'auth._token.local'
@@ -10,8 +10,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const _user = ref(null)
   const _loggedIn = ref(false)
   cachedToken.value = localStorage.getItem(tokenLocalStorageKey)
-
-  const currentRoute = useRoute()
 
   const initializeAuthorizedSession = () => {
     _loggedIn.value = true
@@ -60,7 +58,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
     reset() {
       this.setToken(null)
-      navigateTo(`/auth/login-req?next=${currentRoute.path}`)
+      navigateTo('/')
     },
   })
 
