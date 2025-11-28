@@ -66,4 +66,8 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
     port: 3000,
   },
+  runtimeConfig: {
+    BACKEND_URL: 'http://localhost:3000',
+    CMS_URL: 'https://ancient-balance-34dc5d8db0.strapiapp.com',
+  },
 })
