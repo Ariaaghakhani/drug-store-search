@@ -2,8 +2,7 @@ import { reactive, ref, readonly } from 'vue'
 import { navigateTo } from '#app'
 import { logoutAndResetAuthentication } from '~/utils/auth.js'
 
-export const tokenLocalStorageKey = 'auth._token.local'
-const tokenPrefix = 'HHRAA'
+export const tokenLocalStorageKey = 'auth.local'
 export const cachedToken = ref(null)
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -32,7 +31,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
     setToken(token) {
       if (token) {
-        const prefixedToken = `${tokenPrefix} ${token}`
+        const prefixedToken = `${token}`
 
         localStorage.setItem(tokenLocalStorageKey, prefixedToken)
         cachedToken.value = prefixedToken

@@ -3,7 +3,7 @@ import { cachedToken } from '@/plugins/auth.client'
 
 const apiPromisesCache = new Map()
 
-const addTrailingAndLeadingSlashToUrl = (url) => {
+function addTrailingAndLeadingSlashToUrl(url) {
   if (/^(?!https?:).*/.test(url) && !url.startsWith('/')) url = '/' + url
   if (!url.endsWith('/')) url = url + '/'
   return url
@@ -13,8 +13,10 @@ const setDefaultConfigs = (config) => {
   config.instance = config.instance || 'default'
   config.params = config.params || null
 
-  for (const property in config.params) {
-    if (config.params[property] === null) delete config.params[property]
+  if (config.params) {
+    for (const property in config.params) {
+      if (config.params[property] === null) delete config.params[property]
+    }
   }
   return config
 }
@@ -117,19 +119,28 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const defaultInstance = $fetch.create({
-    baseURL: runtimeConfig.public.BACKEND_BASE_URL,
+    baseURL: runtimeConfig.public.BACKEND_URL,
+    headers: {
+      'ngrok-skip-browser-warning': '69420',
+      'User-Agent': 'MyApp',
+    },
     onRequest(request) {
       const token = cachedToken.value
       if (token) {
         request.options.headers.set('Authorization', token)
       }
+      console.log(
+        'Request headers:',
+        Object.fromEntries(request.options.headers.entries())
+      )
+      console.log('Request URL:', request.request)
     },
     onResponse,
     onResponseError,
   })
 
   const cmsInstance = $fetch.create({
-    baseURL: runtimeConfig.public.CMS_BASE_URL,
+    baseURL: runtimeConfig.public.CMS_URL,
     onRequest({ options }) {
       if (!import.meta.client) {
         options.headers = {

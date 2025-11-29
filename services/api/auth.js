@@ -1,12 +1,12 @@
 export default (apiCaller) => ({
-  signIn(config) {
-    return apiCaller.post('/auth/login', config)
+  login(config) {
+    return apiCaller.post('api/auth/login', config)
   },
-  signUp(config) {
+  register(config) {
     return apiCaller.post('/auth/signup', config)
   },
-  fetchUser(config) {
-    return apiCaller.get('/user/', config)
+  checkUser(config) {
+    return apiCaller.post('api/auth/check-username', config)
   },
   logout(config) {
     return apiCaller.post('/auth/logout', config)

@@ -55,5 +55,13 @@ export default defineNuxtComponent({
       ],
     }
   },
+  async mounted() {
+    const response = await this.$api.auth.checkUser({
+      data: {
+        phone: '09128946210',
+      },
+    })
+    console.log(response)
+  },
 })
 </script>
